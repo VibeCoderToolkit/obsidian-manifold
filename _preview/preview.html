@@ -1,0 +1,360 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Manifold - preview harness</title>
+<!-- app.css is Obsidian's own stylesheet, copied in only while the theme is being
+     developed. If it is absent the preview still renders from the scaffolding
+     below, just with less faithful page layout. -->
+<link rel="stylesheet" href="app.css">
+<link rel="stylesheet" href="../theme.css">
+<style>
+  /* ------------------------------------------------------------------
+     HARNESS SCAFFOLDING ONLY.
+     Everything below stands in for Obsidian's own app.css layout so the
+     theme can be judged in a browser. It is not part of the theme.
+     ------------------------------------------------------------------ */
+  html, body { margin: 0; height: 100%; }
+  .app-container, .horizontal-main-container, .workspace { height: 100%; }
+  .workspace { display: flex; align-items: stretch; }
+  .workspace-ribbon {
+    width: 44px; flex: 0 0 44px; display: flex; flex-direction: column;
+    align-items: center; gap: 10px; padding-top: 12px;
+    background-color: var(--ribbon-background);
+  }
+  .workspace-ribbon .clickable-icon {
+    width: 22px; height: 22px; display: grid; place-items: center; font-size: 13px;
+    color: var(--icon-color);
+  }
+  .workspace-split { flex: 1 1 auto; display: flex; flex-direction: column; min-width: 0; }
+  .workspace-tab-header-container {
+    display: flex; align-items: flex-end; height: 34px;
+    background-color: var(--tab-container-background);
+  }
+  .workspace-tab-header { display: flex; align-items: center; height: 30px; }
+  .workspace-tab-header-inner { display: flex; align-items: center; gap: 8px; }
+  .workspace-tab-container { flex: 1 1 auto; display: flex; min-height: 0; }
+  .workspace-leaf { flex: 1 1 auto; display: flex; min-width: 0; }
+  .workspace-leaf-content { flex: 1 1 auto; display: flex; flex-direction: column; min-width: 0; min-height: 0; }
+  .view-content { flex: 1 1 auto; display: flex; min-height: 0; }
+  .markdown-reading-view { flex: 1 1 auto; min-width: 0; }
+  .status-bar { height: 24px; display: flex; align-items: center; justify-content: flex-end; }
+  .metadata-property { display: flex; align-items: baseline; gap: 8px; padding: 2px 0; }
+  .metadata-property-key { flex: 0 0 var(--metadata-label-width); }
+  .metadata-property-value { flex: 1 1 auto; }
+  .metadata-property-key-input { border: none; background: none; width: 100%; }
+  .metadata-input { padding: 0 4px; }
+  .callout-title { display: flex; align-items: center; gap: 6px; }
+  .checkbox-container { width: 34px; height: 18px; position: relative; }
+  .checkbox-container::after {
+    content: ""; position: absolute; top: 2px; left: 2px;
+    width: 12px; height: 12px; background-color: var(--toggle-thumb-color);
+  }
+  .harness-note {
+    font-family: var(--font-interface); font-size: 11px; letter-spacing: 1px;
+    text-transform: uppercase; color: var(--text-faint);
+    padding: 6px 10px; border-bottom: 1px solid var(--background-modifier-border);
+  }
+  /* Page layout, mirroring Obsidian's own app.css, so the harness stands alone. */
+  .markdown-preview-view {
+    width: 100%; height: 100%; padding: var(--file-margins);
+    position: relative; overflow-y: auto; overflow-wrap: break-word;
+    color: var(--text-normal); font-size: var(--font-text-size);
+    font-family: var(--font-text); line-height: var(--line-height-normal);
+    display: flex; flex-direction: column;
+  }
+  .markdown-preview-view.is-readable-line-width .markdown-preview-sizer {
+    max-width: var(--file-line-width); margin-left: auto; margin-right: auto;
+  }
+  .markdown-preview-sizer { flex: 1 0 0; }
+  .markdown-rendered table { border-collapse: collapse; }
+  .markdown-rendered td, .markdown-rendered th { padding: var(--size-2-2) var(--size-4-2); }
+  .markdown-rendered h1, .markdown-rendered h2, .markdown-rendered h3,
+  .markdown-rendered h4, .markdown-rendered h5, .markdown-rendered h6 {
+    margin-block-start: var(--heading-spacing);
+  }
+  .markdown-rendered > :first-child, .markdown-rendered h1:first-child { margin-block-start: 0; }
+  .markdown-rendered ul, .markdown-rendered ol { padding-inline-start: var(--list-indent); }
+  .callout { padding: var(--callout-padding); margin: 1em 0; }
+  .markdown-rendered li.task-list-item { list-style: none; }
+  .inline-title { margin-block-end: var(--inline-title-margin-bottom); }
+</style>
+</head>
+<body class="theme-light show-inline-title">
+
+<div class="app-container">
+  <div class="horizontal-main-container">
+    <div class="workspace">
+
+      <div class="workspace-ribbon mod-left">
+        <div class="clickable-icon is-active">&#9707;</div>
+        <div class="clickable-icon">&#9776;</div>
+        <div class="clickable-icon">&#9906;</div>
+        <div class="clickable-icon">&#9737;</div>
+        <div class="clickable-icon">&#9635;</div>
+      </div>
+
+      <div class="workspace-split mod-root">
+        <div class="workspace-tabs">
+          <div class="workspace-tab-header-container">
+            <div class="workspace-tab-header is-active">
+              <div class="workspace-tab-header-inner">
+                <div class="workspace-tab-header-inner-title">OPERATION MANIFOLD</div>
+              </div>
+            </div>
+            <div class="workspace-tab-header">
+              <div class="workspace-tab-header-inner">
+                <div class="workspace-tab-header-inner-title">SITREP 14</div>
+              </div>
+            </div>
+            <div class="workspace-tab-header">
+              <div class="workspace-tab-header-inner">
+                <div class="workspace-tab-header-inner-title">Q3 INVENTORY</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="workspace-tab-container">
+          <div class="workspace-leaf">
+            <div class="workspace-leaf-content" data-type="markdown">
+              <div class="view-content">
+                <div class="markdown-reading-view">
+                  <div class="markdown-preview-view markdown-rendered show-properties is-readable-line-width">
+                    <div class="markdown-preview-sizer markdown-preview-section">
+
+                      <div class="inline-title">Operation Manifold</div>
+
+                      <div class="metadata-container">
+                        <div class="metadata-properties">
+                          <div class="metadata-property">
+                            <div class="metadata-property-key"><input class="metadata-property-key-input" value="classification" readonly></div>
+                            <div class="metadata-property-value"><div class="metadata-input">CONFIDENTIAL</div></div>
+                          </div>
+                          <div class="metadata-property">
+                            <div class="metadata-property-key"><input class="metadata-property-key-input" value="reference" readonly></div>
+                            <div class="metadata-property-value"><div class="metadata-input">REF 62-1049-A</div></div>
+                          </div>
+                          <div class="metadata-property">
+                            <div class="metadata-property-key"><input class="metadata-property-key-input" value="tags" readonly></div>
+                            <div class="metadata-property-value"><a class="tag">#signals</a> <a class="tag">#logistics</a></div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <h1>Standing operational summary</h1>
+
+                      <p>At 0400 hours the network was reported at <strong>ninety one percent</strong>
+                      availability, an improvement of <em>four points</em> on the previous week.
+                      Signal traffic through the northern relay is unchanged. Refer to
+                      <a class="internal-link" href="#">SITREP 14</a> for the full circuit list, or the
+                      <a class="external-link" href="#">published tables</a> for the raw figures.</p>
+
+                      <h2>Circuit disposition</h2>
+
+                      <table>
+                        <thead>
+                          <tr><th>Circuit</th><th>Station</th><th class="has-text-align-right">Traffic</th><th>State</th></tr>
+                        </thead>
+                        <tbody>
+                          <tr><td>ALPHA-1</td><td>Bergen</td><td>1,204</td><td>serviceable</td></tr>
+                          <tr><td>ALPHA-2</td><td>Bodo</td><td>988</td><td>serviceable</td></tr>
+                          <tr><td>BRAVO-4</td><td>Tromso</td><td>412</td><td>degraded</td></tr>
+                          <tr><td>BRAVO-7</td><td>Kirkenes</td><td>96</td><td>serviceable</td></tr>
+                          <tr><td>CHARLIE-2</td><td>Oslo</td><td>2,331</td><td>serviceable</td></tr>
+                        </tbody>
+                      </table>
+
+                      <h3>Checks before handover</h3>
+
+                      <ul>
+                        <li>Confirm the daily key list against the printed sheet.</li>
+                        <li>Rotate the <a class="internal-link" href="#">courier register</a> and initial the page.
+                          <ul>
+                            <li>Two signatures are required after 2200.</li>
+                            <li>File the carbon copy, not the top sheet.</li>
+                          </ul>
+                        </li>
+                        <li>Report any deviation to the duty officer.</li>
+                      </ul>
+
+                      <h4>Handover actions</h4>
+                      <ul class="contains-task-list">
+                        <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" checked> <del>Print the traffic summary</del></li>
+                        <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox"> Distribute to the watch</li>
+                        <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox"> Log the time of issue</li>
+                      </ul>
+
+                      <blockquote>
+                        <p>Procedures are written for the man who is tired, cold and working by
+                        torchlight. If a step can be read two ways, it is wrong.</p>
+                      </blockquote>
+
+                      <h5>Extract of standing order 14</h5>
+
+                      <div class="callout" data-callout="warning" style="--callout-color: #8d6110">
+                        <div class="callout-title"><div class="callout-title-inner">Warning</div></div>
+                        <div class="callout-content">
+                          <p>Transmissions above 40 words per minute were not readable at the receiving
+                          station. Hold to 25.</p>
+                        </div>
+                      </div>
+
+                      <div class="callout" data-callout="note" style="--callout-color: #2f5aa8">
+                        <div class="callout-title"><div class="callout-title-inner">Note</div></div>
+                        <div class="callout-content">
+                          <p>The green bar on the printout marks every second line. Count from the top
+                          of the sheet, not from the tear.</p>
+                        </div>
+                      </div>
+
+                      <p>A single line of code, <code>RELAY --north --key 62</code>, is enough to open the circuit.
+                      The full procedure is below.</p>
+
+                      <pre><code>def dispatch(entries, window=timedelta(hours=6)):
+    """Send every queued entry inside the reporting window."""
+    sent = 0
+    for entry in entries:
+        if entry.age > window:
+            log.warn("stale entry, holding for review")
+            continue
+        if not entry.keyed:
+            raise DispatchError("entry not keyed")
+        relay.send(entry.payload, key=entry.key)
+        sent += 1
+    return sent</code></pre>
+
+                      <p>Wrap-up notes carry the usual marking, a <mark>subject line</mark> in capitals,
+                      and the classification stamp. Anything else is discarded at the registry.</p>
+
+                      <p>The <mark class="redacted">Kirkenes relay station</mark> was struck from the
+                      circuit list on <mark class="redacted">14 March 1962</mark>, pending a decision on
+                      replacement equipment.</p>
+
+                      <hr>
+
+                      <p><small>Filed under #operations, #coldline. Superseded copies are destroyed.</small></p>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="status-bar">
+          <div class="status-bar-item">1,412 words</div>
+          <div class="status-bar-item">Source mode</div>
+          <div class="status-bar-item">Manifold</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+  // Preview harness only: #dark renders the same document on the cyanotype sheet.
+  if (location.hash.indexOf('dark') !== -1) {
+    document.body.classList.remove('theme-light');
+    document.body.classList.add('theme-dark');
+  }
+  // #redact selects a passage so the redaction bar can be seen in a still render.
+  if (location.hash.indexOf('redact') !== -1) {
+    window.addEventListener('load', function () {
+      var target = document.querySelector('.markdown-rendered h1 + p') ||
+                   document.querySelector('.markdown-rendered p');
+      var range = document.createRange();
+      range.selectNodeContents(target);
+      var sel = window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(range);
+    });
+  }
+  if (location.hash.indexOf('probe') !== -1) {
+    var pb = document.querySelector('.markdown-preview-view');
+    var cs = getComputedStyle(pb);
+    var code = document.querySelector('pre > code');
+    var ccs = getComputedStyle(code);
+    var it = document.querySelector('.inline-title');
+    var ics = getComputedStyle(it, '::after');
+    var cb = document.querySelector('input[type=checkbox]:checked');
+    var cbs = getComputedStyle(cb, '::after');
+    var h1 = document.querySelector('h1');
+    var pairs = [];
+    function add(k, v) { pairs.push(k + '=' + String(v).replace(/[\r\n"|]/g, ' ')); }
+    add('mode', document.body.className);
+    add('paperBg', cs.backgroundColor);
+    add('bodyFontText', getComputedStyle(document.body).getPropertyValue('--font-text'));
+    add('h1Font', getComputedStyle(h1).fontFamily);
+    add('h1Size', getComputedStyle(h1).fontSize);
+    add('sizerWidth', Math.round(document.querySelector('.markdown-preview-sizer').getBoundingClientRect().width));
+    add('fileLineWidth', getComputedStyle(document.body).getPropertyValue('--file-line-width'));
+    add('fileMarginsX', getComputedStyle(document.body).getPropertyValue('--file-margins-x'));
+    add('blend', cs.backgroundBlendMode);
+    add('sheetLayers', cs.backgroundImage.split(/gradient|url\(/).length - 1);
+    add('codeFontSize', ccs.fontSize);
+    add('codeLineHeight', ccs.lineHeight);
+    add('codeGradient', ccs.backgroundImage);
+    add('stampContent', ics.content);
+    add('stampFontSize', ics.fontSize);
+    add('stampTop', Math.round(it.getBoundingClientRect().top));
+    add('checkboxMask', (cbs.webkitMaskImage || cbs.maskImage || 'none'));
+    add('calloutBorderLeft', document.querySelector('.callout') ? getComputedStyle(document.querySelector('.callout')).borderLeftWidth : 'n/a');
+    add('calloutBg', document.querySelector('.callout') ? getComputedStyle(document.querySelector('.callout')).backgroundColor : 'n/a');
+    add('tableBandBg', document.querySelectorAll('tbody tr:nth-child(even) td').length ? getComputedStyle(document.querySelectorAll('tbody tr:nth-child(even) td')[0]).backgroundColor : 'n/a');
+    add('tablePlainBg', document.querySelectorAll('tbody tr:nth-child(odd) td').length ? getComputedStyle(document.querySelectorAll('tbody tr:nth-child(odd) td')[0]).backgroundColor : 'n/a');
+    add('footerContent', getComputedStyle(pb, '::after').content);
+    /* --- redaction checks --- */
+    var tp = document.createElement('div');
+    tp.className = 'markdown-source-view mod-cm6';
+    tp.style.cssText = 'position:absolute;left:-9999px;top:0';
+    tp.innerHTML = '<div class="cm-editor"><div class="cm-scroller">' +
+                   '<div class="cm-content"><p id="selprobe">probe</p></div>' +
+                   '<div class="cm-selectionLayer"><div class="cm-selectionBackground"></div></div>' +
+                   '<div class="cm-cursorLayer"></div></div></div>';
+    document.body.appendChild(tp);
+    var spb = document.getElementById('selprobe');
+    add('redactionVar', getComputedStyle(document.body).getPropertyValue('--manifold-redaction'));
+    add('selPlain', getComputedStyle(document.querySelector('.markdown-rendered p'), '::selection').backgroundColor);
+    add('selEditor', getComputedStyle(spb, '::selection').backgroundColor);
+    add('selColor', getComputedStyle(spb, '::selection').color);
+    add('selTextFill', getComputedStyle(spb, '::selection').webkitTextFillColor);
+    add('selShadow', getComputedStyle(spb, '::selection').textShadow);
+    add('cmLayerZ', getComputedStyle(tp.querySelector('.cm-selectionLayer')).zIndex);
+    add('cmCursorZ', getComputedStyle(tp.querySelector('.cm-cursorLayer')).zIndex);
+    add('cmSelBg', getComputedStyle(tp.querySelector('.cm-selectionBackground')).backgroundColor);
+    add('parsedToEnd', getComputedStyle(document.querySelector('.status-bar')).fontFamily);
+    var rk = document.querySelector('mark.redacted');
+    add('redactedBg', rk ? getComputedStyle(rk).backgroundColor : 'n/a');
+    add('redactedColor', rk ? getComputedStyle(rk).color : 'n/a');
+    add('redactedFill', rk ? getComputedStyle(rk).webkitTextFillColor : 'n/a');
+    add('plainMarkBg', getComputedStyle(document.querySelector('.markdown-rendered mark:not(.redacted)')).backgroundColor);
+    add('fontsLoaded', Array.from(document.fonts).filter(function (f) { return f.status === 'loaded'; }).map(function (f) { return f.family.replace(/"/g, ''); }).join(' / ') || 'none');
+    var sheet = null;
+    for (var si = 0; si < document.styleSheets.length; si++) {
+      var sh = document.styleSheets[si];
+      if (sh.href && sh.href.indexOf('theme.css') !== -1) { sheet = sh; break; }
+    }
+    if (sheet) {
+      var rules = null;
+      try { rules = sheet.cssRules; } catch (e) { rules = null; }
+      if (rules && rules.length) {
+        add('themeRuleCount', rules.length);
+        add('themeLastRule', rules[rules.length - 1].cssText.slice(0, 90));
+      } else {
+        add('themeRuleCount', 'inaccessible');
+      }
+    } else {
+      add('themeRuleCount', 'sheet-not-found');
+    }
+    tp.remove();
+    var pre = document.createElement('pre');
+    pre.id = 'manifold-diag';
+    pre.textContent = 'DIAGSTART' + pairs.join('||') + 'DIAGEND';
+    document.body.appendChild(pre);
+  }
+</script>
+</body>
+</html>

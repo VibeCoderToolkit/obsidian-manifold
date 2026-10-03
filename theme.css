@@ -1,0 +1,2159 @@
+/* ==========================================================================
+   MANIFOLD
+   A cold-war era typewritten document theme for Obsidian.
+   Continuous-form manifold paper, carbon-copy ink, rubber stamps.
+
+   Light  · MANIFOLD   aged cream manifold paper, typewriter black, carbon blue
+   Dark   · CYANOTYPE  prussian blueprint sheet, chalk white, cyan
+
+   Built against Obsidian 1.13.x
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   0 · TYPE FACES (bundled locally, no network required)
+   Courier Prime — Quote-Unquote Apps, SIL Open Font License 1.1
+   Special Elite — Astigmatic (AOETI), Apache License 2.0
+   -------------------------------------------------------------------------- */
+
+@font-face {
+  font-family: "Courier Prime";
+  src: url("fonts/CourierPrime-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Courier Prime";
+  src: url("fonts/CourierPrime-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Courier Prime";
+  src: url("fonts/CourierPrime-Italic.ttf") format("truetype");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Courier Prime";
+  src: url("fonts/CourierPrime-BoldItalic.ttf") format("truetype");
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Special Elite";
+  src: url("fonts/SpecialElite-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* --------------------------------------------------------------------------
+   1 · STYLE SETTINGS SCHEMA
+   Live only when the community plugin "Style Settings" is installed.
+   Every choice writes a --manifold-choice-* variable on <body>, which the
+   theme reads with a fallback, so an override applies in both light and dark.
+   Without the plugin, edit the variables marked TUNABLE in sections 3A / 3B.
+   -------------------------------------------------------------------------- */
+
+/* @settings
+
+name: Manifold
+id: manifold
+settings:
+  -
+    id: manifold-head-stock
+    title: Paper stock
+    type: heading
+    level: 2
+    collapsed: false
+  -
+    id: manifold-choice-paper
+    title: Sheet (light mode)
+    description: Cream is the stock manifold paper. Bone is bleached, Kraft is heavy duty, Mimeo is the violet duplicator sheet.
+    type: variable-select
+    default: '#f1ecdc'
+    options:
+      -
+        label: Cream (stock)
+        value: '#f1ecdc'
+      -
+        label: Bone (bleached)
+        value: '#f6f3e9'
+      -
+        label: Kraft (heavy duty)
+        value: '#e8dfc6'
+      -
+        label: Mimeo violet
+        value: '#e4e0ea'
+  -
+    id: manifold-choice-ink
+    title: Ribbon ink
+    description: The colour the typewriter ribbon leaves on the sheet.
+    type: variable-select
+    default: '#2b2a24'
+    options:
+      -
+        label: Black ribbon
+        value: '#2b2a24'
+      -
+        label: Blue ribbon
+        value: '#1f2f52'
+      -
+        label: Carbon purple
+        value: '#3a2b52'
+      -
+        label: Faded grey
+        value: '#4a4740'
+  -
+    id: manifold-choice-accent
+    title: Accent
+    description: Carbon copy blue in light mode, chart cyan in dark.
+    type: variable-color
+    format: hex
+    default: '#27467f'
+  -
+    id: manifold-choice-perforation
+    title: Tractor-feed perforation ink
+    description: The pin-feed holes down both edges. Choose a colour close to the sheet to make them recede.
+    type: variable-color
+    format: hex
+    default: '#b0a483'
+  -
+    id: manifold-head-markings
+    title: Markings
+    type: heading
+    level: 2
+    collapsed: false
+  -
+    id: manifold-choice-stamp-text
+    title: Stamp text
+    description: The rubber stamp beside the document title. Keep the quotes.
+    type: variable-text
+    default: '"CONFIDENTIAL"'
+  -
+    id: manifold-choice-stamp-display
+    title: Stamp
+    type: variable-select
+    default: block
+    options:
+      -
+        label: Show
+        value: block
+      -
+        label: Hide
+        value: none
+  -
+    id: manifold-choice-footer-text
+    title: Closing line
+    description: Printed at the end of every document in reading view. Keep the quotes.
+    type: variable-text
+    default: '"— END OF DOCUMENT —"'
+  -
+    id: manifold-choice-redaction
+    title: Redaction bar
+    description: The bar laid over selected text. Selected text is knocked out and unreadable while the selection is held. Black suits the cream sheet, a pale ink suits the blueprint.
+    type: variable-color
+    format: hex
+    default: '#000000'
+  -
+    id: manifold-head-output
+    title: Print quality
+    type: heading
+    level: 2
+    collapsed: false
+  -
+    id: manifold-choice-greenbar-alpha
+    title: Green-bar banding
+    description: Strength of the alternate band on tables and code blocks. 0 disables it.
+    type: variable-number-slider
+    default: 0.3
+    min: 0
+    max: 0.9
+    step: 0.02
+  -
+    id: manifold-choice-ink-bleed
+    title: Ink bleed
+    description: Weight the ribbon leaves on the paper. 0 is a clean new ribbon.
+    type: variable-number-slider
+    default: 0.25
+    min: 0
+    max: 1
+    step: 0.05
+*/
+
+/* --------------------------------------------------------------------------
+   2 · SHARED TOKENS
+   -------------------------------------------------------------------------- */
+
+body {
+  /* Faces */
+  --manifold-typewriter: "Courier Prime", "Courier New", ui-monospace, "SFMono-Regular", monospace;
+  --manifold-display: "Special Elite", "Courier Prime", "Courier New", monospace;
+
+  /* Machined corners — nothing in this theme is rounded */
+  --radius-s: 0px;
+  --radius-m: 0px;
+  --radius-l: 0px;
+  --radius-xl: 0px;
+  --input-radius: 0px;
+  --checkbox-radius: 0px;
+  --code-radius: 0px;
+  --modal-radius: 0px;
+  --tab-radius: 0px;
+  --tab-radius-active: 0px;
+  --nav-item-radius: 0px;
+  --clickable-icon-radius: 0px;
+  --scrollbar-radius: 0px;
+  --bases-embed-border-radius: 0px;
+  --bases-table-container-border-radius: 0px;
+  --table-selection-border-radius: 0px;
+  --tag-radius: 0px;
+  --callout-radius: 0px;
+  --toggle-radius: 3px;
+  --toggle-thumb-radius: 1px;
+  --slider-thumb-radius: 1px;
+
+  /* No consumer-grade soft shadows */
+  --input-shadow: none;
+  --input-shadow-hover: none;
+  --slider-thumb-shadow: none;
+  --slider-thumb-shadow-hover: none;
+  --slider-thumb-shadow-active: none;
+  --tab-stacked-shadow: none;
+  --embed-actions-shadow: none;
+  --modal-shadow: 0 10px 40px rgba(0, 0, 0, 0.28);
+
+  /* Type */
+  --font-text-size: 16px;
+  --font-ui-smaller: 12px;
+  --font-ui-small: 13px;
+  --font-ui-medium: 15px;
+  --font-ui-large: 18px;
+  --font-smaller: 0.875em;
+  --font-default: var(--manifold-typewriter);
+  --font-text: var(--manifold-typewriter);
+  --font-text-theme: var(--manifold-typewriter);
+  --font-interface: var(--manifold-typewriter);
+  --font-interface-theme: var(--manifold-typewriter);
+  --font-monospace: var(--manifold-typewriter);
+  --font-monospace-theme: var(--manifold-typewriter);
+
+  /* Rhythm */
+  --line-height-normal: 1.62;
+  --line-height-tight: 1.35;
+  --p-spacing: 1.05rem;
+  --heading-spacing: 2.1rem;
+
+  /* A document, not a submissively narrow column */
+  --file-line-width: 44rem;
+  --file-margins-x: 52px;
+  --file-margins-y: 40px;
+
+  --border-width: 1px;
+  --divider-width: 1px;
+  --divider-width-hover: 2px;
+  --scrollbar-width: 11px;
+  --scrollbar-height: 11px;
+  --scrollbar-border-width: 2px;
+
+  /* Headings: stencil face, separated by rules rather than by size alone */
+  --h1-font: var(--manifold-display);
+  --h2-font: var(--manifold-display);
+  --h3-font: var(--manifold-display);
+  --h4-font: var(--manifold-display);
+  --h5-font: var(--manifold-display);
+  --h6-font: var(--manifold-display);
+  --h1-size: 1.6em;
+  --h2-size: 1.3em;
+  --h3-size: 1.12em;
+  --h4-size: 0.94em;
+  --h5-size: 0.88em;
+  --h6-size: 0.82em;
+  --h1-weight: 400;
+  --h2-weight: 400;
+  --h3-weight: 400;
+  --h4-weight: 400;
+  --h5-weight: 400;
+  --h6-weight: 400;
+  --h1-letter-spacing: 0.06em;
+  --h2-letter-spacing: 0.06em;
+  --h3-letter-spacing: 0.08em;
+  --h4-letter-spacing: 0.1em;
+  --h5-letter-spacing: 0.12em;
+  --h6-letter-spacing: 0.14em;
+  --h1-line-height: 1.25;
+  --h2-line-height: 1.3;
+  --h3-line-height: 1.35;
+  --h4-line-height: 1.4;
+  --inline-title-weight: 400;
+  --inline-title-margin-bottom: 1.15em;
+  --bold-modifier: 200;
+  --bold-weight: 700;
+
+  --list-indent: 1.6em;
+  --list-bullet-size: 0.38em;
+  --list-bullet-radius: 0px;
+  --list-bullet-transform: none;
+  --list-spacing: 0.14em;
+  --indentation-guide-width: 1px;
+  --indentation-guide-width-active: 1px;
+
+  --blockquote-border-thickness: 3px;
+  --blockquote-font-style: normal;
+  --hr-thickness: 1px;
+
+  --checkbox-size: 0.95em;
+  --checkbox-margin-inline-start: 0.9em;
+  --checklist-done-decoration: none;
+
+  --code-size: 0.875em;
+  --code-border-width: 1px;
+  --code-white-space: pre-wrap;
+
+  --callout-border-width: 1px;
+  --callout-border-opacity: 1;
+  --callout-blend-mode: normal;
+  --callout-padding: 14px 16px 14px 18px;
+  --callout-title-size: 0.9em;
+  --callout-title-weight: 400;
+  --callout-content-padding: 0;
+
+  --table-border-width: 1px;
+  --table-header-weight: 700;
+  --table-text-size: 0.9em;
+  --table-line-height: 1.45;
+  --table-cell-vertical-alignment: top;
+
+  --tag-size: 0.76em;
+  --tag-weight: 400;
+  --tag-padding-x: 0.55em;
+  --tag-padding-y: 0.16em;
+  --tag-border-width: 1px;
+  --tag-decoration: none;
+
+  --metadata-label-width: 10.5em;
+  --metadata-label-font-weight: 700;
+  --metadata-property-radius: 0px;
+  --metadata-divider-width: 0px;
+
+  --embed-border-start: 3px solid var(--interactive-accent);
+  --embed-padding: 0 0 0 20px;
+
+  --nav-item-size: 13px;
+  --tab-font-size: 12.5px;
+  --status-bar-font-size: 11.5px;
+  --titlebar-text-weight: 400;
+
+  --icon-stroke: 1.6px;
+  --icon-m-stroke-width: 1.6px;
+  --icon-s-stroke-width: 1.8px;
+  --icon-l-stroke-width: 1.5px;
+  --icon-opacity: 0.9;
+
+  --anim-duration-fast: 60ms;
+  --anim-duration-superfast: 40ms;
+  --anim-duration-moderate: 110ms;
+}
+
+/* --------------------------------------------------------------------------
+   3A · LIGHT — "MANIFOLD"  ·  aged cream sheet, black ribbon, carbon blue
+   -------------------------------------------------------------------------- */
+
+.theme-light {
+  color-scheme: light;
+
+  /* --- TUNABLE (also exposed to Style Settings) --- */
+  --manifold-paper: var(--manifold-choice-paper, #f1ecdc);
+  --manifold-ink: var(--manifold-choice-ink, #2b2a24);
+  --manifold-accent: var(--manifold-choice-accent, #27467f);
+  --manifold-perforation: var(--manifold-choice-perforation, #b0a483);
+  --manifold-stamp-text: var(--manifold-choice-stamp-text, "CONFIDENTIAL");
+  --manifold-stamp-display: var(--manifold-choice-stamp-display, block);
+  --manifold-footer-text: var(--manifold-choice-footer-text, "— END OF DOCUMENT —");
+  --manifold-greenbar-alpha: var(--manifold-choice-greenbar-alpha, 0.3);
+  --manifold-ink-bleed: var(--manifold-choice-ink-bleed, 0.25);
+  /* A selection is a redaction bar. Blacked out on the cream sheet. */
+  --manifold-redaction: var(--manifold-choice-redaction, #000000);
+  --manifold-selection-match: rgba(39, 70, 127, 0.18);
+
+  /* --- derived stock --- */
+  --manifold-paper-hi: #f7f3e6;
+  --manifold-paper-alt: #e9e3d0;
+  --manifold-paper-deep: #dfd8c3;
+  --manifold-rule: #bfb493;
+  --manifold-rule-hard: #96895f;
+  --manifold-margin-rule: rgba(150, 137, 95, 0.35);
+  --manifold-stamp: #a32b22;
+  --manifold-accent-hi: #1b3260;
+  --manifold-bleed-color: rgba(43, 42, 36, calc(var(--manifold-ink-bleed) * 0.55));
+  --manifold-greenbar: rgba(110, 138, 88, var(--manifold-greenbar-alpha));
+  --manifold-carbon: rgba(39, 70, 127, 0.055);
+  --manifold-grain: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/><feComponentTransfer><feFuncR type='linear' slope='0.28' intercept='0.36'/><feFuncG type='linear' slope='0.28' intercept='0.36'/><feFuncB type='linear' slope='0.28' intercept='0.36'/></feComponentTransfer></filter><rect width='200' height='200' filter='url(%23g)'/></svg>");
+
+  /* 5 layers: grain · left feed holes · right feed holes · left margin rule · right margin rule */
+  --manifold-sheet-image:
+    var(--manifold-grain),
+    radial-gradient(circle at 15px 9px, var(--manifold-perforation) 1.4px, transparent 1.65px),
+    radial-gradient(circle at calc(100% - 15px) 9px, var(--manifold-perforation) 1.4px, transparent 1.65px),
+    linear-gradient(to right, transparent 26px, var(--manifold-margin-rule) 26px, var(--manifold-margin-rule) 27px, transparent 27px),
+    linear-gradient(to left, transparent 26px, var(--manifold-margin-rule) 26px, var(--manifold-margin-rule) 27px, transparent 27px);
+  --manifold-sheet-size: 200px 200px, 100% 18px, 100% 18px, 100% 100%, 100% 100%;
+  --manifold-sheet-repeat: repeat, repeat-y, repeat-y, no-repeat, no-repeat;
+  /* overlay keeps the grain zero-mean, so the sheet stays cream rather than grey */
+  --manifold-sheet-blend: overlay, normal, normal, normal, normal;
+
+  /* --- Obsidian base ramp --- */
+  --color-base-00: #f7f3e6;
+  --color-base-05: #f1ecdc;
+  --color-base-10: #eae4d1;
+  --color-base-20: #e2dbc6;
+  --color-base-25: #dbd3bb;
+  --color-base-30: #c9be9e;
+  --color-base-35: #b8ac8b;
+  --color-base-40: #a2967a;
+  --color-base-50: #8a8166;
+  --color-base-60: #6d6651;
+  --color-base-70: #524d3d;
+  --color-base-100: #2b2a24;
+
+  --accent-h: 219;
+  --accent-s: 53%;
+  --accent-l: 33%;
+
+  /* --- surfaces --- */
+  --background-primary: #f1ecdc;
+  --background-primary-alt: #eae4d1;
+  --background-secondary: #e4ddc8;
+  --background-secondary-alt: #eee8d8;
+  --background-modifier-border: #c9be9e;
+  --background-modifier-border-hover: #b2a683;
+  --background-modifier-border-focus: #96895f;
+  --background-modifier-hover: rgba(43, 42, 36, 0.065);
+  --background-modifier-active-hover: rgba(39, 70, 127, 0.1);
+  --background-modifier-form-field: #f7f3e6;
+  --background-modifier-cover: rgba(223, 216, 195, 0.8);
+  --background-modifier-message: rgba(43, 42, 36, 0.9);
+
+  --text-normal: var(--manifold-ink);
+  --text-muted: #6d6651;
+  --text-faint: #8f8769;
+  --text-on-accent: #f7f3e6;
+  --text-on-accent-inverted: #1b1a14;
+  --text-accent: var(--manifold-accent);
+  --text-accent-hover: var(--manifold-accent-hi);
+  --text-selection: rgba(39, 70, 127, 0.19);
+  --text-highlight-bg: rgba(199, 160, 44, 0.42);
+  --text-highlight-bg-rgb: 199, 160, 44;
+  --text-error: #a32b22;
+  --text-success: #4c6b30;
+  --text-warning: #8d6110;
+
+  --interactive-normal: #e9e3d0;
+  --interactive-hover: #dfd8c3;
+  --interactive-accent: var(--manifold-accent);
+  --interactive-accent-hover: var(--manifold-accent-hi);
+
+  /* --- structure --- */
+  --divider-color: #c9be9e;
+  --divider-color-hover: #96895f;
+  --hr-color: #b0a483;
+  --tab-outline-color: #b8ac8b;
+  --titlebar-background: #dfd8c3;
+  --titlebar-background-focused: #e4ddc8;
+  --titlebar-border-color: #c9be9e;
+  --ribbon-background: #dfd8c3;
+  --status-bar-background: #dfd8c3;
+  --tab-container-background: #dfd8c3;
+  --tab-background-active: #f1ecdc;
+  --tab-text-color: #8a8166;
+  --tab-text-color-active: #524d3d;
+  --tab-text-color-focused: #524d3d;
+  --tab-text-color-focused-active: #524d3d;
+  --tab-text-color-focused-active-current: #2b2a24;
+  --nav-item-color: #524d3d;
+  --nav-item-color-hover: #2b2a24;
+  --nav-item-color-active: #2b2a24;
+  --nav-item-background-hover: rgba(43, 42, 36, 0.07);
+  --nav-item-background-active: rgba(39, 70, 127, 0.12);
+  --nav-heading-color: #6d6651;
+  --vault-profile-color: #2b2a24;
+
+  --scrollbar-bg: transparent;
+  --scrollbar-thumb-bg: rgba(43, 42, 36, 0.24);
+  --scrollbar-active-thumb-bg: rgba(39, 70, 127, 0.42);
+
+  --icon-color: #6d6651;
+  --icon-color-hover: #2b2a24;
+  --icon-color-active: var(--manifold-accent);
+  --icon-color-focused: #2b2a24;
+  --collapse-icon-color: #a2967a;
+  --collapse-icon-color-collapsed: #8a8166;
+
+  /* --- documents --- */
+  --heading-formatting: #a2967a;
+  --h1-color: var(--manifold-ink);
+  --h2-color: var(--manifold-ink);
+  --h3-color: var(--manifold-ink);
+  --h4-color: #3a3830;
+  --h5-color: #514c3f;
+  --h6-color: #6d6651;
+  --inline-title-color: var(--manifold-ink);
+  --bold-color: #26251f;
+  --italic-color: #4a4436;
+
+  --link-color: var(--manifold-accent);
+  --link-color-hover: var(--manifold-accent-hi);
+  --link-decoration: underline;
+  --link-decoration-style: solid;
+  --link-decoration-thickness: 1px;
+  --link-external-color: var(--manifold-accent);
+  --link-external-color-hover: var(--manifold-accent-hi);
+  --link-unresolved-color: #8a8166;
+
+  --indentation-guide-color: rgba(150, 137, 95, 0.32);
+  --indentation-guide-color-active: rgba(39, 70, 127, 0.5);
+  --list-marker-color: var(--manifold-accent);
+
+  --blockquote-background-color: rgba(43, 42, 36, 0.035);
+  --blockquote-border-color: #b0a483;
+  --blockquote-color: #4a4739;
+
+  --code-background: rgba(110, 138, 88, 0.13);
+  --code-border-color: #c9be9e;
+  --code-normal: #2b2a24;
+  --code-comment: #8a8166;
+  --code-function: #7a5a12;
+  --code-keyword: #8d2f3b;
+  --code-string: #46662e;
+  --code-value: #5a3f78;
+  --code-operator: #8d2f2f;
+  --code-property: #20606b;
+  --code-important: #8d6110;
+  --code-tag: #8d2f2f;
+  --code-punctuation: #6d6651;
+  --code-bracket-background: rgba(43, 42, 36, 0.09);
+
+  --table-background: transparent;
+  --table-border-color: #c9be9e;
+  --table-header-background: rgba(43, 42, 36, 0.085);
+  --table-row-alt-background: var(--manifold-greenbar);
+  --table-row-background-hover: rgba(39, 70, 127, 0.07);
+  --table-text-color: #2b2a24;
+
+  --tag-color: var(--manifold-accent);
+  --tag-color-hover: var(--manifold-accent-hi);
+  --tag-background: rgba(39, 70, 127, 0.08);
+  --tag-background-hover: rgba(39, 70, 127, 0.16);
+  --tag-border-color: rgba(39, 70, 127, 0.35);
+  --tag-border-color-hover: rgba(39, 70, 127, 0.6);
+
+  --embed-background: rgba(43, 42, 36, 0.035);
+
+  --callout-default: #2f5aa8;
+  --callout-info: #2f5aa8;
+  --callout-todo: #2f5aa8;
+  --callout-tip: #1e6a6b;
+  --callout-summary: #1e6a6b;
+  --callout-important: #1e6a6b;
+  --callout-success: #4c6b30;
+  --callout-warning: #8d6110;
+  --callout-question: #a3551f;
+  --callout-error: #a32b22;
+  --callout-fail: #a32b22;
+  --callout-bug: #a32b22;
+  --callout-example: #6d6651;
+  --callout-quote: #6d6651;
+
+  --metadata-background: rgba(43, 42, 36, 0.035);
+  --metadata-border-color: #c9be9e;
+  --metadata-divider-color: #dbd3bb;
+  --metadata-label-text-color: #6d6651;
+  --metadata-input-text-color: #2b2a24;
+  --metadata-input-background-active: rgba(39, 70, 127, 0.09);
+
+  --graph-node: #6d6651;
+  --graph-node-focused: var(--manifold-accent);
+  --graph-node-tag: #4c6b30;
+  --graph-node-attachment: #8d6110;
+  --graph-node-unresolved: #a2967a;
+  --graph-line: #c9be9e;
+  --graph-text: #2b2a24;
+
+  --canvas-background: #e9e3d0;
+  --canvas-dot-pattern: #c9be9e;
+  --canvas-card-label-color: #8a8166;
+
+  --checkbox-border-color: #6d6651;
+  --checkbox-border-color-hover: var(--manifold-accent);
+  --checkbox-color: var(--manifold-accent);
+  --checkbox-color-hover: var(--manifold-accent-hi);
+  --checkbox-marker-color: #f7f3e6;
+  --checkbox-background-color: transparent;
+  --checkbox-background-color-hover: transparent;
+  --checkbox-background-color-active: rgba(39, 70, 127, 0.1);
+
+  --prompt-border-color: #96895f;
+  --modal-border-color: #96895f;
+  --modal-sidebar-background: #eae4d1;
+
+  --input-unfocused-border-color: #c9be9e;
+  --input-hover-border-color: #a2967a;
+  --input-focus-border-color: var(--manifold-accent);
+  --input-focus-outline: 1px solid transparent;
+
+  --slider-track-background: #c9be9e;
+  --slider-thumb-background: var(--manifold-accent);
+  --slider-thumb-background-hover: var(--manifold-accent-hi);
+  --slider-thumb-border-color: #2b2a24;
+  --slider-fill-background: var(--manifold-accent);
+
+  --toggle-thumb-color: #f7f3e6;
+  --toggle-background-color: #c9be9e;
+  --toggle-background-color-hover: #b8ac8b;
+  --toggle-background-color-active: var(--manifold-accent);
+
+  --text-primary-color: #2b2a24;
+  --text-secondary-color: #6d6651;
+  --mono-0: #f7f3e6;
+  --mono-100: #2b2a24;
+  --highlight-mix-blend-mode: normal;
+}
+
+/* --------------------------------------------------------------------------
+   3B · DARK — "CYANOTYPE"  ·  prussian blueprint sheet, chalk white, cyan
+   -------------------------------------------------------------------------- */
+
+.theme-dark {
+  color-scheme: dark;
+
+  --manifold-paper: var(--manifold-choice-paper, #102233);
+  --manifold-ink: var(--manifold-choice-ink, #d9e9f2);
+  --manifold-accent: var(--manifold-choice-accent, #56b3d4);
+  --manifold-perforation: var(--manifold-choice-perforation, rgba(160, 205, 230, 0.35));
+  --manifold-stamp-text: var(--manifold-choice-stamp-text, "CONFIDENTIAL");
+  --manifold-stamp-display: var(--manifold-choice-stamp-display, block);
+  --manifold-footer-text: var(--manifold-choice-footer-text, "— END OF DOCUMENT —");
+  --manifold-greenbar-alpha: var(--manifold-choice-greenbar-alpha, 0.1);
+  --manifold-ink-bleed: var(--manifold-choice-ink-bleed, 0.3);
+  /* Black is invisible on the blueprint, so the patch is a bar of chalk ink. */
+  --manifold-redaction: var(--manifold-choice-redaction, var(--manifold-ink));
+  --manifold-selection-match: rgba(86, 179, 212, 0.18);
+
+  --manifold-paper-hi: #16303f;
+  --manifold-paper-alt: #0d1c2b;
+  --manifold-paper-deep: #0a1520;
+  --manifold-rule: #24455c;
+  --manifold-rule-hard: #356b85;
+  --manifold-margin-rule: rgba(120, 185, 220, 0.22);
+  --manifold-stamp: #d0523f;
+  --manifold-accent-hi: #7fd0e8;
+  --manifold-bleed-color: rgba(217, 233, 242, calc(var(--manifold-ink-bleed) * 0.3));
+  --manifold-greenbar: rgba(120, 195, 225, var(--manifold-greenbar-alpha));
+  --manifold-carbon: rgba(120, 195, 225, 0.045);
+  --manifold-grain: none;
+
+  /* The draughtsman's 10 mm square, ruled in weak cyan */
+  --manifold-grid:
+    repeating-linear-gradient(to right, rgba(120, 185, 220, 0.05) 0 1px, transparent 1px 32px),
+    repeating-linear-gradient(to bottom, rgba(120, 185, 220, 0.05) 0 1px, transparent 1px 32px);
+
+  /* 6 layers: grid ×2 · feed holes ×2 · margin rules ×2 */
+  --manifold-sheet-image:
+    var(--manifold-grid),
+    radial-gradient(circle at 15px 9px, var(--manifold-perforation) 1.4px, transparent 1.65px),
+    radial-gradient(circle at calc(100% - 15px) 9px, var(--manifold-perforation) 1.4px, transparent 1.65px),
+    linear-gradient(to right, transparent 26px, var(--manifold-margin-rule) 26px, var(--manifold-margin-rule) 27px, transparent 27px),
+    linear-gradient(to left, transparent 26px, var(--manifold-margin-rule) 26px, var(--manifold-margin-rule) 27px, transparent 27px);
+  --manifold-sheet-size: 100% 100%, 100% 100%, 100% 18px, 100% 18px, 100% 100%, 100% 100%;
+  --manifold-sheet-repeat: repeat, repeat, repeat-y, repeat-y, no-repeat, no-repeat;
+  --manifold-sheet-blend: normal, normal, normal, normal, normal, normal;
+
+  --color-base-00: #0e1f2e;
+  --color-base-05: #0b1a27;
+  --color-base-10: #102233;
+  --color-base-20: #0c1a26;
+  --color-base-25: #122a3c;
+  --color-base-30: #20455c;
+  --color-base-35: #2a5a72;
+  --color-base-40: #3a7691;
+  --color-base-50: #5693ad;
+  --color-base-60: #7fb0c6;
+  --color-base-70: #a8c8d8;
+  --color-base-100: #dcebf4;
+
+  --accent-h: 195;
+  --accent-s: 58%;
+  --accent-l: 56%;
+
+  --background-primary: #102233;
+  --background-primary-alt: #0d1c2b;
+  --background-secondary: #0a1520;
+  --background-secondary-alt: #0c1a27;
+  --background-modifier-border: #20455c;
+  --background-modifier-border-hover: #2a5a72;
+  --background-modifier-border-focus: #3a7691;
+  --background-modifier-hover: rgba(217, 233, 242, 0.07);
+  --background-modifier-active-hover: rgba(86, 179, 212, 0.14);
+  --background-modifier-form-field: #0d1c2b;
+  --background-modifier-cover: rgba(4, 12, 20, 0.8);
+  --background-modifier-message: rgba(217, 233, 242, 0.92);
+
+  --text-normal: var(--manifold-ink);
+  --text-muted: #9dbccd;
+  --text-faint: #6f92a6;
+  --text-on-accent: #061420;
+  --text-on-accent-inverted: #061420;
+  --text-accent: var(--manifold-accent);
+  --text-accent-hover: var(--manifold-accent-hi);
+  --text-selection: rgba(86, 179, 212, 0.26);
+  --text-highlight-bg: rgba(209, 168, 74, 0.3);
+  --text-highlight-bg-rgb: 209, 168, 74;
+  --text-error: #e2705f;
+  --text-success: #7fc08a;
+  --text-warning: #dcb45e;
+
+  --interactive-normal: #142b3d;
+  --interactive-hover: #1b3648;
+  --interactive-accent: var(--manifold-accent);
+  --interactive-accent-hover: var(--manifold-accent-hi);
+
+  --divider-color: #20455c;
+  --divider-color-hover: #3a7691;
+  --hr-color: #2a5a72;
+  --tab-outline-color: #20455c;
+  --titlebar-background: #0a1520;
+  --titlebar-background-focused: #0c1a27;
+  --titlebar-border-color: #20455c;
+  --ribbon-background: #0a1520;
+  --status-bar-background: #0a1520;
+  --tab-container-background: #0a1520;
+  --tab-background-active: #102233;
+  --tab-text-color: #6f92a6;
+  --tab-text-color-active: #a8c8d8;
+  --tab-text-color-focused: #a8c8d8;
+  --tab-text-color-focused-active: #a8c8d8;
+  --tab-text-color-focused-active-current: #d9e9f2;
+  --nav-item-color: #a8c8d8;
+  --nav-item-color-hover: #d9e9f2;
+  --nav-item-color-active: #d9e9f2;
+  --nav-item-background-hover: rgba(217, 233, 242, 0.08);
+  --nav-item-background-active: rgba(86, 179, 212, 0.16);
+  --nav-heading-color: #9dbccd;
+  --vault-profile-color: #d9e9f2;
+
+  --scrollbar-bg: transparent;
+  --scrollbar-thumb-bg: rgba(217, 233, 242, 0.2);
+  --scrollbar-active-thumb-bg: rgba(86, 179, 212, 0.45);
+
+  --icon-color: #9dbccd;
+  --icon-color-hover: #d9e9f2;
+  --icon-color-active: var(--manifold-accent);
+  --icon-color-focused: #d9e9f2;
+  --collapse-icon-color: #5693ad;
+  --collapse-icon-color-collapsed: #6f92a6;
+
+  --heading-formatting: #5693ad;
+  --h1-color: #e4f0f7;
+  --h2-color: #d9e9f2;
+  --h3-color: #cfe3ee;
+  --h4-color: #bcd6e6;
+  --h5-color: #a8c8d8;
+  --h6-color: #9dbccd;
+  --inline-title-color: #e9f4fa;
+  --bold-color: #f0f7fb;
+  --italic-color: #b8d4e4;
+
+  --link-color: var(--manifold-accent);
+  --link-color-hover: var(--manifold-accent-hi);
+  --link-decoration: underline;
+  --link-decoration-style: solid;
+  --link-decoration-thickness: 1px;
+  --link-external-color: var(--manifold-accent);
+  --link-external-color-hover: var(--manifold-accent-hi);
+  --link-unresolved-color: #6f92a6;
+
+  --indentation-guide-color: rgba(120, 185, 220, 0.2);
+  --indentation-guide-color-active: rgba(120, 195, 225, 0.5);
+  --list-marker-color: var(--manifold-accent);
+
+  --blockquote-background-color: rgba(120, 185, 220, 0.05);
+  --blockquote-border-color: #356b85;
+  --blockquote-color: #b8d4e4;
+
+  --code-background: rgba(120, 195, 225, 0.07);
+  --code-border-color: #20455c;
+  --code-normal: #dcebf4;
+  --code-comment: #6f92a6;
+  --code-function: #dcc27a;
+  --code-keyword: #e58f9b;
+  --code-string: #8fc98a;
+  --code-value: #b9a2e6;
+  --code-operator: #e0907f;
+  --code-property: #6cc2de;
+  --code-important: #dcb45e;
+  --code-tag: #e0907f;
+  --code-punctuation: #9dbccd;
+  --code-bracket-background: rgba(217, 233, 242, 0.1);
+
+  --table-background: transparent;
+  --table-border-color: #20455c;
+  --table-header-background: rgba(120, 195, 225, 0.13);
+  --table-row-alt-background: var(--manifold-greenbar);
+  --table-row-background-hover: rgba(86, 179, 212, 0.1);
+  --table-text-color: #d9e9f2;
+
+  --tag-color: #8ed3ec;
+  --tag-color-hover: #b3e3f5;
+  --tag-background: rgba(86, 179, 212, 0.12);
+  --tag-background-hover: rgba(86, 179, 212, 0.22);
+  --tag-border-color: rgba(86, 179, 212, 0.4);
+  --tag-border-color-hover: rgba(86, 179, 212, 0.7);
+
+  --embed-background: rgba(120, 185, 220, 0.05);
+
+  --callout-default: #5590d8;
+  --callout-info: #5590d8;
+  --callout-todo: #5590d8;
+  --callout-tip: #45b0b2;
+  --callout-summary: #45b0b2;
+  --callout-important: #45b0b2;
+  --callout-success: #6fb36a;
+  --callout-warning: #cf9c37;
+  --callout-question: #d08a4a;
+  --callout-error: #d4604c;
+  --callout-fail: #d4604c;
+  --callout-bug: #d4604c;
+  --callout-example: #8aa4b6;
+  --callout-quote: #8aa4b6;
+
+  --metadata-background: rgba(120, 185, 220, 0.05);
+  --metadata-border-color: #20455c;
+  --metadata-divider-color: #17364a;
+  --metadata-label-text-color: #9dbccd;
+  --metadata-input-text-color: #d9e9f2;
+  --metadata-input-background-active: rgba(86, 179, 212, 0.12);
+
+  --graph-node: #9dbccd;
+  --graph-node-focused: var(--manifold-accent);
+  --graph-node-tag: #6fb36a;
+  --graph-node-attachment: #cf9c37;
+  --graph-node-unresolved: #5693ad;
+  --graph-line: #20455c;
+  --graph-text: #d9e9f2;
+
+  --canvas-background: #0d1c2b;
+  --canvas-dot-pattern: #20455c;
+  --canvas-card-label-color: #6f92a6;
+
+  --checkbox-border-color: #7fb0c6;
+  --checkbox-border-color-hover: var(--manifold-accent);
+  --checkbox-color: var(--manifold-accent);
+  --checkbox-color-hover: var(--manifold-accent-hi);
+  --checkbox-marker-color: #061420;
+  --checkbox-background-color: transparent;
+  --checkbox-background-color-hover: transparent;
+  --checkbox-background-color-active: rgba(86, 179, 212, 0.14);
+
+  --prompt-border-color: #3a7691;
+  --modal-border-color: #3a7691;
+  --modal-sidebar-background: #0d1c2b;
+
+  --input-unfocused-border-color: #20455c;
+  --input-hover-border-color: #2a5a72;
+  --input-focus-border-color: var(--manifold-accent);
+  --input-focus-outline: 1px solid transparent;
+
+  --slider-track-background: #20455c;
+  --slider-thumb-background: var(--manifold-accent);
+  --slider-thumb-background-hover: var(--manifold-accent-hi);
+  --slider-thumb-border-color: #061420;
+  --slider-fill-background: var(--manifold-accent);
+
+  --toggle-thumb-color: #0a1520;
+  --toggle-background-color: #20455c;
+  --toggle-background-color-hover: #2a5a72;
+  --toggle-background-color-active: var(--manifold-accent);
+
+  --text-primary-color: #d9e9f2;
+  --text-secondary-color: #9dbccd;
+  --mono-0: #061420;
+  --mono-100: #d9e9f2;
+  --highlight-mix-blend-mode: normal;
+}
+
+/* --------------------------------------------------------------------------
+   4 · THE SHEET — paper, tractor-feed perforations, margin rules
+   -------------------------------------------------------------------------- */
+
+.markdown-reading-view,
+.markdown-source-view {
+  background-color: var(--manifold-paper);
+}
+
+.markdown-preview-view,
+.markdown-source-view.mod-cm6 .cm-scroller {
+  background-color: var(--manifold-paper);
+  background-image: var(--manifold-sheet-image);
+  background-size: var(--manifold-sheet-size);
+  background-repeat: var(--manifold-sheet-repeat);
+  background-blend-mode: var(--manifold-sheet-blend);
+}
+
+/* A transcluded note keeps the host sheet it is printed on. */
+.markdown-embed .markdown-preview-view,
+.markdown-embed-content .markdown-preview-view,
+.canvas-node-content .markdown-preview-view {
+  background-image: none;
+  background-color: transparent;
+}
+
+/* Side panels get the plain stock: no perforations, no margin rules. */
+.mod-left-split .markdown-preview-view,
+.mod-right-split .markdown-preview-view,
+.mod-left-split .markdown-source-view.mod-cm6 .cm-scroller,
+.mod-right-split .markdown-source-view.mod-cm6 .cm-scroller {
+  background-image: none;
+  background-color: var(--manifold-paper-alt);
+}
+
+/* --------------------------------------------------------------------------
+   5 · TYPEWRITTEN BODY COPY
+   -------------------------------------------------------------------------- */
+
+.markdown-rendered {
+  font-family: var(--manifold-typewriter);
+  font-size: var(--font-text-size);
+  line-height: var(--line-height-normal);
+  letter-spacing: 0.005em;
+}
+
+.markdown-rendered p,
+.markdown-rendered li,
+.cm-line {
+  text-shadow: 0 0 0 var(--manifold-bleed-color), 0.34px 0.34px 0 var(--manifold-bleed-color);
+}
+
+.markdown-rendered p {
+  margin-block-start: 0;
+  margin-block-end: var(--p-spacing);
+}
+
+.markdown-rendered strong,
+.cm-strong {
+  font-weight: 700;
+  color: var(--bold-color);
+}
+
+.markdown-rendered em,
+.cm-em {
+  color: var(--italic-color);
+}
+
+.markdown-rendered a,
+.cm-link,
+.cm-url {
+  text-underline-offset: 0.18em;
+  text-decoration-thickness: 1px;
+}
+
+.markdown-rendered mark,
+.cm-highlight {
+  color: var(--text-normal);
+  padding: 0 0.15em;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+.markdown-rendered del,
+.cm-strikethrough {
+  text-decoration: line-through;
+  text-decoration-thickness: 1.5px;
+  color: var(--text-faint);
+}
+
+/* --- Rules: the cut line on a continuous form ---------------------------- */
+
+.markdown-rendered hr,
+.cm-hr {
+  border: none;
+  height: 0;
+  margin: 2.1em 0;
+  border-top: 1px dashed var(--hr-color);
+  background: none;
+}
+
+/* --- Headings: stamped section labels ----------------------------------- */
+
+.markdown-rendered h1,
+.markdown-rendered h2,
+.markdown-rendered h3,
+.markdown-rendered h4,
+.markdown-rendered h5,
+.markdown-rendered h6,
+.HyperMD-header,
+.cm-header {
+  font-family: var(--manifold-display);
+  text-transform: uppercase;
+}
+
+.markdown-rendered h1,
+.HyperMD-header-1,
+.cm-header-1 {
+  font-size: var(--h1-size);
+  letter-spacing: var(--h1-letter-spacing);
+  color: var(--h1-color);
+  padding-block-end: 0.32em;
+  border-block-end: 3px double var(--manifold-rule-hard);
+  margin-block-end: 0.85em;
+}
+
+.markdown-rendered h2,
+.HyperMD-header-2,
+.cm-header-2 {
+  font-size: var(--h2-size);
+  letter-spacing: var(--h2-letter-spacing);
+  color: var(--h2-color);
+  padding-block-end: 0.22em;
+  border-block-end: 1px solid var(--manifold-rule);
+  margin-block-end: 0.6em;
+}
+
+.markdown-rendered h3,
+.HyperMD-header-3,
+.cm-header-3 {
+  font-size: var(--h3-size);
+  letter-spacing: var(--h3-letter-spacing);
+  color: var(--h3-color);
+  margin-block-end: 0.4em;
+}
+
+/* H4–H6 are the small boxed labels on a government form. */
+.markdown-rendered h4,
+.HyperMD-header-4,
+.cm-header-4 {
+  display: inline-block;
+  font-size: var(--h4-size);
+  letter-spacing: var(--h4-letter-spacing);
+  color: var(--h4-color);
+  border: 1px solid var(--manifold-rule);
+  padding: 0.15em 0.55em;
+  margin-block-start: 1.6em;
+  margin-block-end: 0.75em;
+  background-color: var(--manifold-carbon);
+}
+
+.markdown-rendered h5,
+.HyperMD-header-5,
+.cm-header-5 {
+  display: inline-block;
+  font-size: var(--h5-size);
+  letter-spacing: var(--h5-letter-spacing);
+  color: var(--h5-color);
+  border: 1px solid var(--manifold-rule);
+  padding: 0.15em 0.55em;
+  margin-block-start: 1.6em;
+  margin-block-end: 0.75em;
+}
+
+.markdown-rendered h6,
+.HyperMD-header-6,
+.cm-header-6 {
+  display: inline-block;
+  font-size: var(--h6-size);
+  letter-spacing: var(--h6-letter-spacing);
+  color: var(--h6-color);
+  border: 1px dashed var(--manifold-rule);
+  padding: 0.15em 0.55em;
+  margin-block-start: 1.6em;
+  margin-block-end: 0.75em;
+}
+
+/* --- The document title line -------------------------------------------- */
+
+.inline-title {
+  font-family: var(--manifold-display);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  position: relative;
+  padding-inline-end: 9em;
+  padding-block-end: 0.3em;
+  border-block-end: 3px double var(--manifold-rule-hard);
+}
+
+.inline-title::after {
+  content: var(--manifold-stamp-text);
+  display: var(--manifold-stamp-display);
+  position: absolute;
+  inset-inline-end: 0;
+  top: 0.2em;
+  transform: rotate(-4deg);
+  font-family: var(--manifold-display);
+  font-size: 0.42em;
+  line-height: 1;
+  letter-spacing: 0.22em;
+  text-shadow: none;
+  color: var(--manifold-stamp);
+  border: 2px solid var(--manifold-stamp);
+  box-shadow: inset 0 0 0 1px var(--manifold-stamp);
+  padding: 0.35em 0.55em 0.3em;
+  opacity: 0.62;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+/* --- Closing line ------------------------------------------------------- */
+
+.markdown-reading-view > .markdown-preview-view::after {
+  content: var(--manifold-footer-text);
+  display: block;
+  flex: 0 0 auto;
+  margin: 0 0 18px;
+  padding-block-start: 10px;
+  border-block-start: 1px dashed var(--manifold-rule);
+  font-family: var(--manifold-display);
+  font-size: 0.62em;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  text-align: center;
+  color: var(--text-faint);
+  text-shadow: none;
+}
+
+.markdown-embed .markdown-preview-view::after,
+.markdown-embed-content .markdown-preview-view::after {
+  content: none;
+}
+
+/* --------------------------------------------------------------------------
+   6 · LISTS
+   -------------------------------------------------------------------------- */
+
+.markdown-rendered ul > li::marker,
+.markdown-rendered ul > li > p::marker {
+  color: var(--list-marker-color);
+}
+
+.markdown-rendered ol > li::marker {
+  color: var(--list-marker-color);
+  font-weight: 700;
+}
+
+.markdown-rendered ul > li,
+.markdown-rendered ol > li {
+  margin-block-end: var(--list-spacing);
+}
+
+.markdown-rendered ul > li.task-list-item,
+.markdown-rendered ul > li.task-list-item > p {
+  text-shadow: none;
+}
+
+/* --------------------------------------------------------------------------
+   7 · BLOCKQUOTE
+   -------------------------------------------------------------------------- */
+
+.markdown-rendered blockquote,
+.cm-quote,
+.HyperMD-quote {
+  background-color: var(--blockquote-background-color);
+  border-inline-start: var(--blockquote-border-thickness) solid var(--blockquote-border-color);
+  color: var(--blockquote-color);
+  padding: 0.55em 1em;
+  margin-inline-start: 0;
+  border-radius: 0;
+}
+
+.markdown-rendered blockquote > :first-child {
+  margin-block-start: 0;
+}
+
+.markdown-rendered blockquote > :last-child {
+  margin-block-end: 0;
+}
+
+/* --------------------------------------------------------------------------
+   8 · TABLES — fan-fold green-bar printout
+   -------------------------------------------------------------------------- */
+
+.markdown-rendered table {
+  margin-inline: 0;
+  width: auto;
+  min-width: 50%;
+  border: 1px solid var(--table-border-color);
+}
+
+.markdown-rendered th {
+  font-family: var(--manifold-display);
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  font-size: 0.82em;
+  white-space: nowrap;
+}
+
+.markdown-rendered thead,
+.markdown-rendered thead th {
+  border-block-end: 2px solid var(--manifold-rule-hard);
+}
+
+.markdown-rendered tbody tr:nth-child(even) > td {
+  background-color: var(--manifold-greenbar);
+}
+
+.markdown-rendered tbody tr:hover > td {
+  background-color: var(--table-row-background-hover);
+}
+
+.cm-table-widget table {
+  border: 1px solid var(--table-border-color);
+}
+
+/* --------------------------------------------------------------------------
+   9 · CODE — fan-fold printout with a carriage gutter
+   -------------------------------------------------------------------------- */
+
+.markdown-rendered code {
+  font-family: var(--manifold-typewriter);
+  border: 1px solid var(--code-border-color);
+  padding: 0.06em 0.34em;
+  background-color: var(--code-background);
+  color: var(--code-normal);
+}
+
+.markdown-rendered pre,
+.cm-s-obsidian .HyperMD-codeblock {
+  font-family: var(--manifold-typewriter);
+  background-color: var(--code-background);
+  border: 1px solid var(--code-border-color);
+  border-radius: 0;
+}
+
+.markdown-rendered pre {
+  position: relative;
+  padding: 0.9em 1.1em 0.9em 1.8em;
+  min-height: 38px;
+  overflow-x: auto;
+}
+
+/* The gutter a line printer leaves at the left carriage stop. */
+.markdown-rendered pre::before {
+  content: "";
+  position: absolute;
+  inset-block: 0.55em;
+  inset-inline-start: 0.85em;
+  border-inline-start: 1px solid var(--manifold-margin-rule);
+  pointer-events: none;
+}
+
+/* Green-bar banding, one band per printed line. The period is expressed in
+   the code element's own em so it can never drift from the line box. */
+.markdown-rendered pre > code {
+  display: block;
+  padding: 0;
+  margin: 0;
+  border: none;
+  background-color: transparent;
+  line-height: 1.5;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent 1.5em,
+    var(--manifold-greenbar) 1.5em,
+    var(--manifold-greenbar) 3em
+  );
+  background-origin: content-box;
+  background-clip: content-box;
+}
+
+.markdown-rendered .code-block-flair,
+.markdown-rendered .copy-code-button {
+  font-family: var(--manifold-display);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.68em;
+  background-color: var(--manifold-paper-alt);
+  border: 1px solid var(--code-border-color);
+  color: var(--text-muted);
+  border-radius: 0;
+}
+
+/* --------------------------------------------------------------------------
+   10 · CHECKBOXES — the typewritten X in a form box
+   -------------------------------------------------------------------------- */
+
+input[type="checkbox"],
+input[type="radio"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: var(--checkbox-size);
+  height: var(--checkbox-size);
+  border: 1.5px solid var(--checkbox-border-color);
+  border-radius: 0;
+  background-color: transparent;
+  position: relative;
+  top: 0.12em;
+}
+
+input[type="checkbox"]:hover,
+input[type="radio"]:hover {
+  border-color: var(--checkbox-border-color-hover);
+}
+
+input[type="checkbox"]:checked,
+input[type="radio"]:checked {
+  background-color: var(--checkbox-background-color-active);
+  border-color: var(--checkbox-color-hover);
+}
+
+input[type="radio"] {
+  border-radius: 50%;
+}
+
+input[type="checkbox"]:checked::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  display: block;
+  background-color: var(--checkbox-color);
+  -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'><path d='M1.2 1.2 L8.8 8.8 M8.8 1.2 L1.2 8.8' stroke='black' stroke-width='2.2'/></svg>");
+  mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'><path d='M1.2 1.2 L8.8 8.8 M8.8 1.2 L1.2 8.8' stroke='black' stroke-width='2.2'/></svg>");
+  -webkit-mask-size: 78%;
+  mask-size: 78%;
+  -webkit-mask-position: 50% 50%;
+  mask-position: 50% 50%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
+
+input[type="radio"]:checked::after {
+  content: "";
+  position: absolute;
+  inset: 25%;
+  display: block;
+  border-radius: 50%;
+  background-color: var(--checkbox-color);
+}
+
+.markdown-rendered li.task-list-item[data-task="x"],
+.markdown-rendered li.task-list-item[data-task="X"] {
+  color: var(--checklist-done-color);
+  text-decoration: line-through;
+  text-decoration-thickness: 1px;
+}
+
+/* --------------------------------------------------------------------------
+   11 · CALLOUTS — rubber-stamped dockets
+   -------------------------------------------------------------------------- */
+
+.callout {
+  border-radius: 0;
+  border-width: 1px;
+  border-style: solid;
+  border-color: var(--callout-color);
+  border-inline-start-width: 6px;
+  background-color: var(--manifold-carbon);
+  mix-blend-mode: normal;
+}
+
+.callout-title {
+  font-family: var(--manifold-display);
+  text-transform: uppercase;
+  letter-spacing: 0.13em;
+  font-size: var(--callout-title-size);
+  color: var(--callout-color);
+  padding-block-end: 0.35em;
+  margin-block-end: 0.5em;
+  border-block-end: 1px solid var(--callout-color);
+}
+
+.callout-icon {
+  display: none;
+}
+
+.callout-content > :first-child {
+  margin-block-start: 0;
+}
+
+.callout-content > :last-child {
+  margin-block-end: 0;
+}
+
+.callout .callout {
+  background-color: var(--manifold-carbon);
+}
+
+/* --------------------------------------------------------------------------
+   12 · TAGS — stamped reference labels
+   -------------------------------------------------------------------------- */
+
+.tag,
+a.tag {
+  font-family: var(--manifold-typewriter);
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  border: 1px solid var(--tag-border-color);
+  background-color: var(--tag-background);
+  color: var(--tag-color);
+  padding: var(--tag-padding-y) var(--tag-padding-x);
+  border-radius: 0;
+  text-decoration: none;
+  font-weight: 400;
+}
+
+.tag:hover,
+a.tag:hover {
+  background-color: var(--tag-background-hover);
+  border-color: var(--tag-border-color-hover);
+  color: var(--tag-color-hover);
+}
+
+.cm-hashtag {
+  color: var(--tag-color);
+}
+
+.cm-hashtag-begin {
+  color: var(--text-faint);
+}
+
+/* --------------------------------------------------------------------------
+   13 · PROPERTIES — the requisition form above the document
+   -------------------------------------------------------------------------- */
+
+.metadata-container {
+  font-family: var(--manifold-typewriter);
+  background-color: var(--metadata-background);
+  border: 1px solid var(--metadata-border-color);
+  border-radius: 0;
+  padding: 10px 14px;
+  margin-block-end: 1.9em;
+}
+
+.metadata-container::before {
+  content: "FORM 1049-A  ·  DOCUMENT CONTROL";
+  display: block;
+  font-family: var(--manifold-display);
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-size: 0.62em;
+  color: var(--text-faint);
+  border-block-end: 1px solid var(--metadata-divider-color);
+  padding-block-end: 6px;
+  margin-block-end: 8px;
+}
+
+.metadata-property-key,
+.metadata-property-key .metadata-property-key-input {
+  font-family: var(--manifold-display);
+  text-transform: uppercase;
+  letter-spacing: 0.11em;
+  font-size: 0.76em;
+  color: var(--metadata-label-text-color);
+}
+
+.metadata-property-value,
+.metadata-property-value .metadata-input,
+.metadata-property-value .multi-select-container {
+  font-family: var(--manifold-typewriter);
+  font-size: 0.86em;
+  color: var(--metadata-input-text-color);
+}
+
+.metadata-property {
+  border-block-end: 1px dotted var(--metadata-divider-color);
+  border-radius: 0;
+}
+
+.metadata-property:last-child {
+  border-block-end: none;
+}
+
+.metadata-add-button {
+  font-family: var(--manifold-display);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.68em;
+  color: var(--text-faint);
+}
+
+/* --------------------------------------------------------------------------
+   14 · EMBEDS AND TRANSCLUSIONS
+   -------------------------------------------------------------------------- */
+
+.markdown-embed {
+  border-inline-start: 3px solid var(--manifold-rule-hard);
+  border-radius: 0;
+  background-color: var(--embed-background);
+  padding-inline-start: 1.1em;
+}
+
+.markdown-embed-title {
+  font-family: var(--manifold-display);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.78em;
+  color: var(--text-muted);
+}
+
+.markdown-embed-link {
+  color: var(--text-faint);
+}
+
+.markdown-rendered img {
+  border: 1px solid var(--manifold-rule);
+  padding: 8px;
+  background-color: var(--manifold-paper-hi);
+}
+
+.markdown-rendered .internal-embed.image-embed.is-loaded::after {
+  content: "PLATE";
+  display: block;
+  font-family: var(--manifold-display);
+  font-size: 0.6em;
+  letter-spacing: 0.2em;
+  color: var(--text-faint);
+  text-align: center;
+  padding-block-start: 4px;
+}
+
+/* --------------------------------------------------------------------------
+   15 · APPLICATION CHROME — the machine that types the document
+   -------------------------------------------------------------------------- */
+
+.titlebar,
+.titlebar-inner {
+  font-family: var(--manifold-display);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 11px;
+}
+
+.titlebar {
+  border-block-end: 1px solid var(--titlebar-border-color);
+}
+
+.titlebar-button {
+  border-radius: 0;
+}
+
+.workspace-ribbon {
+  border-inline-end: 1px solid var(--background-modifier-border);
+}
+
+.side-dock-ribbon-action,
+.clickable-icon {
+  border-radius: 0;
+}
+
+.clickable-icon.is-active,
+.side-dock-ribbon-action.is-active {
+  background-color: var(--nav-item-background-active);
+  color: var(--icon-color-active);
+}
+
+/* --- Tabs: manila file tabs --------------------------------------------- */
+
+.workspace-tab-header-container {
+  border-block-end: 1px solid var(--background-modifier-border);
+  padding-inline: 6px;
+}
+
+.workspace-tab-header {
+  border: 1px solid transparent;
+  border-block-end: none;
+  border-radius: 0;
+  margin-inline-end: 1px;
+  padding-inline: 10px;
+}
+
+.workspace-tab-header.is-active {
+  background-color: var(--tab-background-active);
+  border-color: var(--background-modifier-border);
+}
+
+.workspace-tab-header-inner {
+  padding-block: 5px;
+}
+
+.workspace-tab-header-inner-title {
+  font-family: var(--manifold-display);
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  font-size: var(--tab-font-size);
+}
+
+/* --- File explorer ------------------------------------------------------ */
+
+.nav-folder-title,
+.nav-file-title {
+  font-family: var(--manifold-typewriter);
+  border-radius: 0;
+  border-inline-start: 2px solid transparent;
+}
+
+.nav-file-title.is-active {
+  border-inline-start-color: var(--interactive-accent);
+  font-weight: 700;
+}
+
+.nav-file-title-content,
+.nav-folder-title-content {
+  letter-spacing: 0.02em;
+}
+
+.nav-folder.mod-root > .nav-folder-title > .nav-folder-title-content {
+  font-family: var(--manifold-display);
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 0.82em;
+  color: var(--text-faint);
+}
+
+.nav-buttons-container {
+  border-block-end: 1px solid var(--background-modifier-border);
+  padding-block-end: 6px;
+}
+
+.vault-profile-container,
+.workspace-drawer-vault-switcher {
+  font-family: var(--manifold-display);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+/* --- Status bar --------------------------------------------------------- */
+
+.status-bar {
+  font-family: var(--manifold-display);
+  text-transform: uppercase;
+  letter-spacing: 0.11em;
+  border-block-start: 1px solid var(--background-modifier-border);
+  border-radius: 0;
+}
+
+.status-bar-item {
+  padding-inline: 8px;
+  border-inline-end: 1px solid var(--background-modifier-border);
+}
+
+.status-bar-item:last-child {
+  border-inline-end: none;
+}
+
+/* --- Scrollbars: machined, square --------------------------------------- */
+
+::-webkit-scrollbar {
+  width: var(--scrollbar-width);
+  height: var(--scrollbar-height);
+  background-color: var(--scrollbar-bg);
+}
+
+::-webkit-scrollbar-track {
+  background-color: var(--scrollbar-bg);
+  border-inline-start: 1px solid var(--background-modifier-border);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--scrollbar-thumb-bg);
+  border-radius: 0;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--scrollbar-active-thumb-bg);
+  background-clip: padding-box;
+}
+
+::-webkit-scrollbar-corner {
+  background-color: var(--scrollbar-bg);
+}
+
+/* --- Split dividers ----------------------------------------------------- */
+
+.workspace-leaf-resize-handle {
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.workspace-leaf-resize-handle:hover {
+  background-color: var(--interactive-accent);
+}
+
+.workspace-split.mod-root .workspace-leaf-content {
+  border-inline-start: 1px solid var(--background-modifier-border);
+}
+
+.workspace-split.mod-root > .workspace-leaf:first-child .workspace-leaf-content {
+  border-inline-start: none;
+}
+
+/* --- In-editor find and replace ----------------------------------------- */
+
+.document-search-container {
+  background-color: var(--manifold-paper-alt);
+  border-block-end: 1px solid var(--background-modifier-border);
+}
+
+.document-search-input,
+.document-replace-input {
+  font-family: var(--manifold-typewriter);
+}
+
+/* --------------------------------------------------------------------------
+   16 · FORM CONTROLS
+   -------------------------------------------------------------------------- */
+
+button,
+.menu-item,
+.mod-cta {
+  border-radius: 0;
+}
+
+button:not(.clickable-icon) {
+  font-family: var(--manifold-display);
+  text-transform: uppercase;
+  letter-spacing: 0.11em;
+  font-size: 0.82em;
+  border: 1px solid var(--background-modifier-border);
+  background-color: var(--interactive-normal);
+  color: var(--text-normal);
+  box-shadow: none;
+  padding: 5px 12px;
+}
+
+button:not(.clickable-icon):hover {
+  background-color: var(--interactive-hover);
+  border-color: var(--background-modifier-border-hover);
+}
+
+button.mod-cta {
+  background-color: var(--interactive-accent);
+  border-color: var(--interactive-accent);
+  color: var(--text-on-accent);
+}
+
+button.mod-cta:hover {
+  background-color: var(--interactive-accent-hover);
+  border-color: var(--interactive-accent-hover);
+}
+
+button.mod-warning {
+  background-color: var(--text-error);
+  border-color: var(--text-error);
+  color: var(--manifold-paper-hi);
+}
+
+input[type="text"],
+input[type="search"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="date"],
+select,
+textarea,
+.dropdown {
+  font-family: var(--manifold-typewriter);
+  border-radius: 0;
+  border: 1px solid var(--input-unfocused-border-color);
+  background-color: var(--background-modifier-form-field);
+  box-shadow: none;
+  color: var(--text-normal);
+}
+
+input[type="text"]:hover,
+input[type="search"]:hover,
+input[type="number"]:hover,
+select:hover,
+textarea:hover,
+.dropdown:hover {
+  border-color: var(--input-hover-border-color);
+  box-shadow: none;
+}
+
+input[type="text"]:focus,
+input[type="search"]:focus,
+input[type="number"]:focus,
+select:focus,
+textarea:focus,
+.dropdown:focus {
+  border-color: var(--input-focus-border-color);
+  box-shadow: none;
+  outline: none;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--input-placeholder-color);
+  font-style: italic;
+}
+
+select.dropdown {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/* Toggles read as machined slide switches */
+.checkbox-container {
+  background-color: var(--toggle-background-color);
+  border: 1px solid var(--background-modifier-border);
+  border-radius: 3px;
+  box-shadow: none;
+}
+
+.checkbox-container.is-enabled {
+  background-color: var(--toggle-background-color-active);
+  border-color: var(--toggle-background-color-active);
+}
+
+.checkbox-container::after {
+  border-radius: 1px;
+  box-shadow: none;
+}
+
+input[type="range"] {
+  background-color: var(--slider-track-background);
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  border-radius: 1px;
+  box-shadow: none;
+}
+
+/* --- Menus -------------------------------------------------------------- */
+
+.menu {
+  border: 1px solid var(--background-modifier-border-focus);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.22);
+  padding: 4px;
+  font-family: var(--manifold-typewriter);
+}
+
+.menu-item {
+  font-size: 13px;
+}
+
+.menu-item.selected,
+.menu-item:hover {
+  background-color: var(--nav-item-background-active);
+  color: var(--text-normal);
+}
+
+.menu-separator {
+  border-block-end: 1px solid var(--background-modifier-border);
+  margin: 4px 0;
+}
+
+.menu-item-icon {
+  color: var(--icon-color);
+}
+
+/* --- Modals and settings ------------------------------------------------ */
+
+.modal {
+  border: 1px solid var(--modal-border-color);
+  box-shadow: var(--modal-shadow);
+}
+
+.modal-title {
+  font-family: var(--manifold-display);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-size: 0.95em;
+  border-block-end: 1px solid var(--background-modifier-border);
+  padding-block-end: 10px;
+}
+
+.modal-close-button {
+  border-radius: 0;
+  color: var(--text-faint);
+}
+
+.setting-item {
+  border-block-start: 1px solid var(--background-modifier-border);
+}
+
+.setting-item:first-child {
+  border-block-start: none;
+}
+
+.setting-item-name {
+  font-weight: 700;
+}
+
+.setting-item-description {
+  color: var(--text-muted);
+  font-size: 12.5px;
+}
+
+.setting-item-heading .setting-item-name {
+  font-family: var(--manifold-display);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.86em;
+  color: var(--text-faint);
+}
+
+.vertical-tab-nav-item {
+  border-radius: 0;
+  border-inline-start: 2px solid transparent;
+}
+
+.vertical-tab-nav-item.is-active {
+  background-color: var(--nav-item-background-active);
+  border-inline-start-color: var(--interactive-accent);
+  font-weight: 700;
+}
+
+.vertical-tab-header-group-title {
+  font-family: var(--manifold-display);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.76em;
+  color: var(--text-faint);
+}
+
+/* --- Quick switcher and command palette --------------------------------- */
+
+.prompt {
+  border: 1px solid var(--prompt-border-color);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+}
+
+.prompt-input-container {
+  border-block-end: 1px solid var(--background-modifier-border);
+}
+
+.prompt-input {
+  font-family: var(--manifold-typewriter);
+  font-size: 15px;
+}
+
+.suggestion-item {
+  font-family: var(--manifold-typewriter);
+}
+
+.suggestion-item.is-selected {
+  background-color: var(--nav-item-background-active);
+}
+
+.suggestion-item .suggestion-note,
+.suggestion-item .suggestion-flair {
+  color: var(--text-faint);
+}
+
+.suggestion-container {
+  border: 1px solid var(--background-modifier-border-focus);
+}
+
+/* --------------------------------------------------------------------------
+   17 · GRAPH AND CANVAS
+   -------------------------------------------------------------------------- */
+
+.canvas-node,
+.canvas-node-content,
+.canvas-card-menu,
+.canvas-control-item,
+.canvas-node-group {
+  border-radius: 0;
+}
+
+.canvas-node-group {
+  border-style: dashed;
+}
+
+/* --------------------------------------------------------------------------
+   18 · EDITOR — block cursor, gutters, formatting marks
+   -------------------------------------------------------------------------- */
+
+/* A typewriter has no cursor at all, so the caret is left as the system
+   hairline, coloured with the ribbon ink. A block cursor belongs on a
+   terminal, not on paper. */
+
+.markdown-source-view.mod-cm6 .cm-gutters {
+  font-family: var(--manifold-display);
+  font-size: 0.72em;
+  letter-spacing: 0.06em;
+  color: var(--text-faint);
+  border-inline-end: 1px solid var(--background-modifier-border);
+  background-color: transparent;
+}
+
+.markdown-source-view.mod-cm6 .cm-active.cm-line {
+  background-color: var(--manifold-carbon);
+}
+
+.cm-s-obsidian span.cm-formatting,
+.cm-s-obsidian span.cm-formatting-link,
+.cm-formatting-list,
+.cm-formatting-quote,
+.cm-formatting-header {
+  color: var(--heading-formatting);
+  opacity: 0.8;
+}
+
+/* --- Redaction ----------------------------------------------------------
+   Selecting text lays a bar over it and knocks the glyphs out, the way a
+   reviewing officer blacks out a passage. Release the selection and the
+   text is legible again. Nothing is changed on disk.
+   Obsidian's own `.markdown-source-view.mod-cm6 ::selection` rule is more
+   specific than a naked `::selection`, so all three selectors are listed. */
+
+::selection,
+.markdown-source-view.mod-cm6 ::selection,
+.markdown-source-view.mod-cm6 .cm-content ::selection {
+  background-color: var(--manifold-redaction);
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  text-shadow: none;
+}
+
+/* Live preview also paints its own selection layer, which sits behind the
+   text. Lift it above the content so the bar covers the glyphs there too,
+   then keep the caret layer above the bar so the cursor stays visible. */
+
+.cm-editor .cm-scroller > .cm-selectionLayer {
+  z-index: 8;
+}
+
+.cm-editor .cm-scroller > .cm-cursorLayer {
+  z-index: 9;
+}
+
+/* The long selector is the one Obsidian itself uses for this box, matched here
+   so the bar wins on specificity rather than by force. */
+.markdown-source-view.mod-cm6 .cm-editor > .cm-scroller > .cm-selectionLayer > .cm-selectionBackground,
+.cm-editor .cm-selectionLayer > .cm-selectionBackground,
+.markdown-source-view.mod-cm6 .cm-selectionBackground,
+.cm-editor .cm-selectionBackground {
+  background-color: var(--manifold-redaction);
+}
+
+/* Other occurrences of what you selected are reading aids, not redactions. */
+.cm-selectionMatch {
+  background-color: var(--manifold-selection-match);
+}
+
+/* --- Redaction markup ----------------------------------------------------
+   A passage wrapped as <mark class="redacted"> carries a bar over it for good.
+   The words stay in the file. This covers them, it does not remove them.
+   Written by the Manifold Redaction plugin, but typed by hand it works too. */
+
+.markdown-rendered mark.redacted,
+.markdown-rendered span.manifold-redacted,
+.cm-editor mark.redacted,
+.cm-editor span.manifold-redacted {
+  background-color: var(--manifold-redaction);
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  text-shadow: none;
+  padding: 0 0.12em;
+  border-radius: 0;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+/* The line you are working on lifts its overlay so the passage can be edited.
+   Move the cursor away and the bar closes again. */
+.cm-editor .cm-activeLine mark.redacted,
+.cm-editor .cm-activeLine span.manifold-redacted,
+.cm-editor .cm-active.cm-line mark.redacted,
+.cm-editor .cm-active.cm-line span.manifold-redacted {
+  background-color: var(--manifold-carbon);
+  color: var(--text-normal);
+  -webkit-text-fill-color: currentColor;
+  box-shadow: inset 0 0 0 1px var(--manifold-rule);
+}
+
+/* --------------------------------------------------------------------------
+   19 · MOBILE
+   -------------------------------------------------------------------------- */
+
+.is-mobile {
+  --file-margins-x: 22px;
+  --file-margins-y: 24px;
+}
+
+.is-mobile .markdown-preview-view,
+.is-mobile .markdown-source-view.mod-cm6 .cm-scroller {
+  background-image:
+    linear-gradient(to right, transparent 12px, var(--manifold-margin-rule) 12px, var(--manifold-margin-rule) 13px, transparent 13px),
+    linear-gradient(to left, transparent 12px, var(--manifold-margin-rule) 12px, var(--manifold-margin-rule) 13px, transparent 13px);
+  background-size: 100% 100%, 100% 100%;
+  background-repeat: no-repeat, no-repeat;
+  background-blend-mode: normal, normal;
+}
+
+.is-mobile .inline-title {
+  padding-inline-end: 0;
+}
+
+.is-mobile .inline-title::after {
+  display: none;
+}
+
+.is-mobile .workspace-drawer {
+  border-radius: 0;
+}
+
+@media (hover: none) {
+  .markdown-rendered tbody tr:hover > td {
+    background-color: transparent;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   20 · PRINT
+   -------------------------------------------------------------------------- */
+
+@media print {
+  .theme-dark,
+  .theme-light {
+    --background-primary: #ffffff;
+    --background-primary-alt: #ffffff;
+    --background-secondary: #ffffff;
+    --background-secondary-alt: #ffffff;
+    --text-normal: #000000;
+    --text-muted: #333333;
+    --text-faint: #555555;
+    --manifold-paper: #ffffff;
+    --manifold-ink: #000000;
+    --manifold-perforation: transparent;
+    --manifold-margin-rule: transparent;
+    --manifold-rule: #999999;
+    --manifold-rule-hard: #333333;
+    --manifold-grain: none;
+    --manifold-grid: none;
+    --manifold-carbon: transparent;
+    --manifold-greenbar: rgba(0, 0, 0, 0.05);
+    --manifold-stamp: #000000;
+    --text-highlight-bg: rgba(0, 0, 0, 0.08);
+    --checkbox-color: #000000;
+    --checkbox-border-color: #000000;
+  }
+
+  .markdown-preview-view,
+  .markdown-source-view.mod-cm6 .cm-scroller {
+    background-image: none;
+  }
+
+  .markdown-rendered p,
+  .markdown-rendered li,
+  .cm-line {
+    text-shadow: none;
+  }
+
+  .markdown-reading-view > .markdown-preview-view::after,
+  .markdown-rendered .internal-embed.image-embed.is-loaded::after {
+    content: none;
+  }
+
+  .inline-title::after {
+    opacity: 0.8;
+    color: #000000;
+    border-color: #000000;
+    box-shadow: inset 0 0 0 1px #000000;
+  }
+}
