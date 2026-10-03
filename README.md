@@ -138,9 +138,11 @@ Manifold/
 view, so a change to `theme.css` can be judged in a browser without switching
 themes. Delete the folder if you do not want it.
 
-The companion redaction plugin is not part of the theme folder. It sits at
-`.obsidian/plugins/manifold-redact/` and can be removed on its own. Existing
-redactions keep rendering if you remove it, because the bar is theme CSS.
+The companion redaction plugin is not part of the theme folder and has its own
+repository, https://github.com/VibeCoderToolkit/obsidian-manifold-redact. Copy
+the `manifold-redact` folder from there into `<vault>/.obsidian/plugins/` and
+enable it. Existing redactions keep rendering without it, because the bar is
+theme CSS.
 
 ## Licence
 
