@@ -957,21 +957,17 @@ body {
 .cm-link,
 .cm-url {
   text-underline-offset: 0.18em;
-  text-decoration-thickness: 1px;
 }
 
 .markdown-rendered mark,
 .cm-highlight {
   color: var(--text-normal);
   padding: 0 0.15em;
-  -webkit-box-decoration-break: clone;
-  box-decoration-break: clone;
 }
 
 .markdown-rendered del,
 .cm-strikethrough {
   text-decoration: line-through;
-  text-decoration-thickness: 1.5px;
   color: var(--text-faint);
 }
 
@@ -1317,15 +1313,11 @@ input[type="checkbox"]:checked::after {
   position: absolute;
   inset: 0;
   display: block;
-  background-color: var(--checkbox-color);
-  -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'><path d='M1.2 1.2 L8.8 8.8 M8.8 1.2 L1.2 8.8' stroke='black' stroke-width='2.2'/></svg>");
-  mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'><path d='M1.2 1.2 L8.8 8.8 M8.8 1.2 L1.2 8.8' stroke='black' stroke-width='2.2'/></svg>");
-  -webkit-mask-size: 78%;
-  mask-size: 78%;
-  -webkit-mask-position: 50% 50%;
-  mask-position: 50% 50%;
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
+  /* The X is two diagonal bands, no mask needed. */
+  background-image:
+    linear-gradient(to top right, transparent 43%, var(--checkbox-color) 43%, var(--checkbox-color) 57%, transparent 57%),
+    linear-gradient(to top left, transparent 43%, var(--checkbox-color) 43%, var(--checkbox-color) 57%, transparent 57%);
+  background-repeat: no-repeat;
 }
 
 input[type="radio"]:checked::after {
@@ -1341,7 +1333,6 @@ input[type="radio"]:checked::after {
 .markdown-rendered li.task-list-item[data-task="X"] {
   color: var(--checklist-done-color);
   text-decoration: line-through;
-  text-decoration-thickness: 1px;
 }
 
 /* --------------------------------------------------------------------------
@@ -2051,8 +2042,6 @@ input[type="range"]::-webkit-slider-thumb {
   text-shadow: none;
   padding: 0 0.12em;
   border-radius: 0;
-  -webkit-box-decoration-break: clone;
-  box-decoration-break: clone;
 }
 
 /* The line you are working on lifts its overlay so the passage can be edited.
