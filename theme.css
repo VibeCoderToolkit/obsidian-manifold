@@ -2095,7 +2095,34 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 /* --------------------------------------------------------------------------
-   20 · PRINT
+   20 · EXCALIDRAW
+
+   The Excalidraw plugin derives its interface colours from the drawing's own
+   canvas colour, so a manifold sheet already tints its chrome, and it writes
+   those colours inline, where no theme can reach them. What it cannot derive
+   is shape and type, which is what this section supplies: square corners, the
+   typewriter across the whole interface, and a paper shadow instead of a soft
+   one. Specificity here is deliberately one notch above the plugin's own
+   tokens, so nothing is forced.
+   -------------------------------------------------------------------------- */
+
+body .excalidraw {
+  --ui-font: "Courier Prime", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --border-radius-lg: 0;
+  --border-radius-md: 0;
+}
+
+body .excalidraw.theme--light {
+  --shadow-island: 0 1px 0 rgba(43, 42, 36, 0.12), 0 0 0 1px rgba(43, 42, 36, 0.08);
+}
+
+body .excalidraw.theme--dark {
+  --shadow-island: 0 1px 0 rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(120, 200, 220, 0.14);
+}
+
+/* --------------------------------------------------------------------------
+   21 · PRINT
+
    -------------------------------------------------------------------------- */
 
 @media print {

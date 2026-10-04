@@ -74,6 +74,23 @@ Structure
   and buttons are square and hairline ruled.
 - Period callout palette only: cobalt, teal, olive, amber, signal red, graphite.
 - A print stylesheet, so the document prints as paper rather than as a screen.
+- Excalidraw's interface is squared off and set in Courier Prime, see Excalidraw below.
+
+## Excalidraw
+
+The Excalidraw plugin draws its own interface, and it derives the interface colours
+from the drawing's canvas colour, so a manifold sheet tints its chrome by itself.
+What it has no setting for is shape and type, so the theme supplies those: panels,
+buttons and inputs are square, the soft island shadow becomes a hard paper edge,
+and the whole interface is set in Courier Prime to match Obsidian's own chrome.
+
+The canvas colour is a property of each drawing rather than of the theme, so no
+theme can set it. In the plugin, put the colour you want into a template drawing
+and point Settings, Excalidraw, "Excalidraw template file or folder" at it. New
+drawings then start on that colour, with the ink, the line weight and the default
+text font taken from the same template. For Courier Prime in a drawing, add the
+font file to your vault and point the plugin's local font option at it, since
+Excalidraw's own font list does not include it.
 
 ## Redacting a passage for good
 
