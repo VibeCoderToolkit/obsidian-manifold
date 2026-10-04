@@ -1,7 +1,7 @@
 /* ==========================================================================
    MANIFOLD
-   A cold-war era typewritten document theme for Obsidian.
-   Continuous-form manifold paper, carbon-copy ink, rubber stamps.
+   A typewritten document theme for Obsidian.
+   Continuous-form manifold paper, carbon-copy ink, machine-written documents.
 
    Light  · MANIFOLD   aged cream manifold paper, typewriter black, carbon blue
    Dark   · CYANOTYPE  prussian blueprint sheet, chalk white, cyan
@@ -136,16 +136,17 @@ settings:
     default: '"CONFIDENTIAL"'
   -
     id: manifold-choice-stamp-display
-    title: Stamp
+    title: Rubber stamp beside the title
+    description: Off by default. Turn it on to print a stamp in the corner of the title line.
     type: variable-select
-    default: block
+    default: none
     options:
-      -
-        label: Show
-        value: block
       -
         label: Hide
         value: none
+      -
+        label: Show
+        value: block
   -
     id: manifold-choice-footer-text
     title: Closing line
@@ -372,7 +373,7 @@ body {
   --manifold-accent: var(--manifold-choice-accent, #27467f);
   --manifold-perforation: var(--manifold-choice-perforation, #b0a483);
   --manifold-stamp-text: var(--manifold-choice-stamp-text, "CONFIDENTIAL");
-  --manifold-stamp-display: var(--manifold-choice-stamp-display, block);
+  --manifold-stamp-display: var(--manifold-choice-stamp-display, none);
   --manifold-footer-text: var(--manifold-choice-footer-text, "— END OF DOCUMENT —");
   --manifold-greenbar-alpha: var(--manifold-choice-greenbar-alpha, 0.3);
   --manifold-ink-bleed: var(--manifold-choice-ink-bleed, 0.25);
@@ -635,7 +636,7 @@ body {
   --manifold-accent: var(--manifold-choice-accent, #56b3d4);
   --manifold-perforation: var(--manifold-choice-perforation, rgba(160, 205, 230, 0.35));
   --manifold-stamp-text: var(--manifold-choice-stamp-text, "CONFIDENTIAL");
-  --manifold-stamp-display: var(--manifold-choice-stamp-display, block);
+  --manifold-stamp-display: var(--manifold-choice-stamp-display, none);
   --manifold-footer-text: var(--manifold-choice-footer-text, "— END OF DOCUMENT —");
   --manifold-greenbar-alpha: var(--manifold-choice-greenbar-alpha, 0.1);
   --manifold-ink-bleed: var(--manifold-choice-ink-bleed, 0.3);
