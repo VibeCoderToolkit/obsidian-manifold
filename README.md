@@ -132,13 +132,21 @@ Honest limitation: this is a document marking, not encryption. The words stay in
 the file as plain text, so search, sync, export and anyone who opens the note
 will still see them. If a passage genuinely must not be read, delete it.
 
-If you would rather the words stayed legible on the bar, as a stamp struck
-through the text rather than a blackout, set `--manifold-choice-redaction-ink`
-to `var(--manifold-paper)`. A snippet that does exactly that ships in this
-repository as `snippets/stamped-redactions.css`, and the theme panel exposes the
-same variable. It follows light and dark on its own, because it uses the sheet
-colour rather than a fixed white, and a fixed `#ffffff` is yours to choose if you
-prefer the plain reverse. Either way the words were plain text in the file.
+There are two bars, and they are separate on purpose.
+
+`--manifold-choice-selection-ink` is the bar you get while selecting text. Left
+as `transparent` the glyphs are knocked out. Set it to `var(--manifold-paper)`
+and the words show in the colour of the sheet, so the bar reads as a marker
+struck through the passage. The snippet in `snippets/stamped-redactions.css` does
+exactly that, and follows light and dark on its own, because it uses the sheet
+colour rather than a fixed white.
+
+`--manifold-choice-mark-ink` is the bar carried by a passage actually written as
+redacted, which is what the Redaction plugin produces. It hides its words by
+default and deliberately does not follow the selection setting, so a marker look
+while selecting cannot leak into a redaction. Set that one too if you want those
+shown as well, and remember that nothing is concealed either way: the words are
+plain text in the file, and a passage that must not be read has to be deleted.
 
 ## Tuning
 
@@ -154,7 +162,8 @@ declared in the theme.
 | `--manifold-choice-accent` | `#27467f` | Accent, carbon blue in light, cyan in dark |
 | `--manifold-choice-perforation` | `#b0a483` | Tractor-feed hole ink |
 | `--manifold-choice-redaction` | `#000000` | Bar laid over selected text. Black on the cream sheet, the ink colour on the blueprint. |
-| `--manifold-choice-redaction-ink` | `transparent` | Colour of the words under the bar. `transparent` hides them, `var(--manifold-paper)` shows them as a stamp. |
+| `--manifold-choice-selection-ink` | `transparent` | Colour of the words under the bar while selecting. `var(--manifold-paper)` shows them as a marker. |
+| `--manifold-choice-mark-ink` | `transparent` | Colour of the words under a written redaction. Kept separate from the selection on purpose. |
 | `--manifold-choice-bold-stroke` | `0.35px` | How hard a bold passage is struck. 0.5px is a hard hit, 0.7px approaches the real Bold face, 0 removes the emphasis. |
 | `--manifold-choice-greenbar-alpha` | `0.3` | Green-bar strength, 0 disables |
 | `--manifold-choice-ink-bleed` | `0.25` | Ink weight on the paper, 0 for a new ribbon |

@@ -1,17 +1,20 @@
-/* Manifold, optional. Stamped redactions.
+/* Manifold, optional. An open bar while you select.
 
-   With this on, a marked passage shows its words in the colour of the sheet, so
-   the bar reads as a stamp struck through the text rather than as a blackout.
-   Turn the snippet off to hide the words again.
+   With this on, the bar you get while selecting text shows its words in the
+   colour of the sheet, so it reads as a marker struck through the passage
+   rather than a blackout. Turn the snippet off and the words are knocked out
+   again.
 
-   Be clear about what this is: the words are plain text in the file either way,
-   so nothing was being kept from anyone. This only decides whether the bar
-   reads as a marker or as a censored line. If a passage genuinely must not be
-   read, delete it.
+   This is deliberately only about the selection. A redaction written into a note
+   with the Redaction plugin keeps hiding its words, because that is what a
+   redaction is for. If you want those shown as well, set
+   --manifold-choice-mark-ink as well, and be clear that nothing is concealed
+   either way: the words are plain text in the file, and a passage that must not
+   be read has to be deleted.
 
    Enable in Settings, Appearance, CSS snippets. It follows light and dark on
    its own, because it uses the sheet colour rather than a fixed white. */
 
 body {
-  --manifold-choice-redaction-ink: var(--manifold-paper);
+  --manifold-choice-selection-ink: var(--manifold-paper);
 }
