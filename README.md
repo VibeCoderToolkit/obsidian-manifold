@@ -29,8 +29,11 @@ Manifold, then Install and use.
 By hand: copy the `Manifold` folder into `<vault>/.obsidian/themes/`, then
 choose it in Settings, Appearance, Themes. A restart is not required.
 
-The four Courier Prime faces and one Special Elite face ship inside `fonts/`, so
-nothing is fetched from the network and the theme works offline.
+The four Courier Prime faces and the one Special Elite face are embedded in
+`theme.css` as WOFF2, so the theme is a single file that makes no network call at
+all. That is what the community directory requires, and it matters because an
+install fetches `theme.css` and `manifest.json` and nothing else, so a reference
+to a separate font file would break on every machine but this one.
 
 ## What is in it
 
@@ -185,7 +188,8 @@ TUNABLE block at the top of `.theme-light` in `theme.css`.
 Manifold/
   manifest.json
   theme.css            the whole theme
-  fonts/               Courier Prime x4, Special Elite x1
+  fonts/               the original TTF faces and both licence texts. The faces
+                       themselves are embedded in theme.css, see above
   images/              screenshots, 512x288 for the directory and 1200x800 for the listing
   _preview/            a standalone HTML harness, useful for design changes
   snippets/            ready-made CSS snippets, see stamped redactions above
@@ -193,8 +197,9 @@ Manifold/
 
 `_preview/preview.html` renders the same markup Obsidian produces for a reading
 view, so a change to `theme.css` can be judged in a browser without switching
-themes. Serve the folder over http if you want the bundled fonts to load, since
-browsers refuse fonts over `file://`. Delete the folder if you do not want it.
+themes. Because the faces are embedded, it opens straight from disk, with no
+server and with the `fonts/` folder deleted. Delete the folder if you do not want
+it.
 
 ## Licence
 
