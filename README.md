@@ -30,10 +30,14 @@ By hand: copy the `Manifold` folder into `<vault>/.obsidian/themes/`, then
 choose it in Settings, Appearance, Themes. A restart is not required.
 
 The four Courier Prime faces and the one Special Elite face are embedded in
-`theme.css` as WOFF2, so the theme is a single file that makes no network call at
-all. That is what the community directory requires, and it matters because an
-install fetches `theme.css` and `manifest.json` and nothing else, so a reference
-to a separate font file would break on every machine but this one.
+`theme.css` as WOFF2, subset to Latin, the punctuation a typewritten page uses and
+the symbols the labels need, with hinting dropped since Chromium ignores it for
+webfonts. That keeps `theme.css` at about 225 KB against the 301 KB of the
+unsubset faces, and makes the theme a single file that never makes a network
+call. Bundling is what the community directory requires, and it matters because
+an install fetches `theme.css` and `manifest.json` and nothing else, so a
+reference to a separate font file would break on every machine but this one. The
+full TTFs stay in `fonts/` as the source the subsets were cut from.
 
 ## What is in it
 
