@@ -391,6 +391,7 @@ body {
   --manifold-ink-bleed: var(--manifold-choice-ink-bleed, 0.25);
   /* A selection is a redaction bar. Blacked out on the cream sheet. */
   --manifold-redaction: var(--manifold-choice-redaction, #000000);
+  --manifold-redaction-ink: var(--manifold-choice-redaction-ink, transparent);
   --manifold-selection-match: rgba(39, 70, 127, 0.18);
 
   /* --- derived stock --- */
@@ -654,6 +655,7 @@ body {
   --manifold-ink-bleed: var(--manifold-choice-ink-bleed, 0.3);
   /* Black is invisible on the blueprint, so the patch is a bar of chalk ink. */
   --manifold-redaction: var(--manifold-choice-redaction, var(--manifold-ink));
+  --manifold-redaction-ink: var(--manifold-choice-redaction-ink, transparent);
   --manifold-selection-match: rgba(86, 179, 212, 0.18);
 
   --manifold-paper-hi: #16303f;
@@ -2024,8 +2026,8 @@ input[type="range"]::-webkit-slider-thumb {
 .markdown-source-view.mod-cm6 ::selection,
 .markdown-source-view.mod-cm6 .cm-content ::selection {
   background-color: var(--manifold-redaction);
-  color: transparent;
-  -webkit-text-fill-color: transparent;
+  color: var(--manifold-redaction-ink);
+  -webkit-text-fill-color: var(--manifold-redaction-ink);
   text-shadow: none;
 }
 
@@ -2065,8 +2067,8 @@ input[type="range"]::-webkit-slider-thumb {
 .cm-editor mark.redacted,
 .cm-editor span.manifold-redacted {
   background-color: var(--manifold-redaction);
-  color: transparent;
-  -webkit-text-fill-color: transparent;
+  color: var(--manifold-redaction-ink);
+  -webkit-text-fill-color: var(--manifold-redaction-ink);
   text-shadow: none;
   padding: 0 0.12em;
   border-radius: 0;

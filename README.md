@@ -132,6 +132,14 @@ Honest limitation: this is a document marking, not encryption. The words stay in
 the file as plain text, so search, sync, export and anyone who opens the note
 will still see them. If a passage genuinely must not be read, delete it.
 
+If you would rather the words stayed legible on the bar, as a stamp struck
+through the text rather than a blackout, set `--manifold-choice-redaction-ink`
+to `var(--manifold-paper)`. A snippet that does exactly that ships in this
+repository as `snippets/stamped-redactions.css`, and the theme panel exposes the
+same variable. It follows light and dark on its own, because it uses the sheet
+colour rather than a fixed white, and a fixed `#ffffff` is yours to choose if you
+prefer the plain reverse. Either way the words were plain text in the file.
+
 ## Tuning
 
 The theme exposes its knobs as CSS variables on `body`. Set them in a CSS
@@ -146,6 +154,7 @@ declared in the theme.
 | `--manifold-choice-accent` | `#27467f` | Accent, carbon blue in light, cyan in dark |
 | `--manifold-choice-perforation` | `#b0a483` | Tractor-feed hole ink |
 | `--manifold-choice-redaction` | `#000000` | Bar laid over selected text. Black on the cream sheet, the ink colour on the blueprint. |
+| `--manifold-choice-redaction-ink` | `transparent` | Colour of the words under the bar. `transparent` hides them, `var(--manifold-paper)` shows them as a stamp. |
 | `--manifold-choice-bold-stroke` | `0.35px` | How hard a bold passage is struck. 0.5px is a hard hit, 0.7px approaches the real Bold face, 0 removes the emphasis. |
 | `--manifold-choice-greenbar-alpha` | `0.3` | Green-bar strength, 0 disables |
 | `--manifold-choice-ink-bleed` | `0.25` | Ink weight on the paper, 0 for a new ribbon |
@@ -170,6 +179,7 @@ Manifold/
   fonts/               Courier Prime x4, Special Elite x1
   images/              screenshots, 512x288 for the directory and 1200x800 for the listing
   _preview/            a standalone HTML harness, useful for design changes
+  snippets/            ready-made CSS snippets, see stamped redactions above
 ```
 
 `_preview/preview.html` renders the same markup Obsidian produces for a reading

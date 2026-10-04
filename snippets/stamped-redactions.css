@@ -1,0 +1,17 @@
+/* Manifold, optional. Stamped redactions.
+
+   With this on, a marked passage shows its words in the colour of the sheet, so
+   the bar reads as a stamp struck through the text rather than as a blackout.
+   Turn the snippet off to hide the words again.
+
+   Be clear about what this is: the words are plain text in the file either way,
+   so nothing was being kept from anyone. This only decides whether the bar
+   reads as a marker or as a censored line. If a passage genuinely must not be
+   read, delete it.
+
+   Enable in Settings, Appearance, CSS snippets. It follows light and dark on
+   its own, because it uses the sheet colour rather than a fixed white. */
+
+body {
+  --manifold-choice-redaction-ink: var(--manifold-paper);
+}
