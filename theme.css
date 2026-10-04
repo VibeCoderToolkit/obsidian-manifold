@@ -2026,18 +2026,13 @@ input[type="range"]::-webkit-slider-thumb {
 .markdown-source-view.mod-cm6 ::selection,
 .markdown-source-view.mod-cm6 .cm-content ::selection {
   background-color: var(--manifold-redaction);
-  color: var(--manifold-choice-selection-ink, transparent);
-  -webkit-text-fill-color: var(--manifold-choice-selection-ink, transparent);
+  color: var(--manifold-choice-selection-ink, var(--manifold-paper));
+  -webkit-text-fill-color: var(--manifold-choice-selection-ink, var(--manifold-paper));
   text-shadow: none;
-}
-
-/* Live preview also paints its own selection layer, which sits behind the
-   text. Lift it above the content so the bar covers the glyphs there too,
-   then keep the caret layer above the bar so the cursor stays visible. */
-
-.cm-editor .cm-scroller > .cm-selectionLayer {
-  z-index: 8;
-}
+}/* The editor paints its own selection rectangle in a layer behind the text.
+   It used to be lifted above the glyphs so the bar covered them, which suits
+   hiding the words. Now that the selection shows its words in the sheet colour,
+   the layer stays behind them, and the caret keeps its own layer. */
 
 .cm-editor .cm-scroller > .cm-cursorLayer {
   z-index: 9;
