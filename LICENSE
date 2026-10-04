@@ -19,11 +19,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
----
-
-The bundled typefaces are licensed separately and their licence texts travel
-with them in the fonts/ directory:
-
-  Courier Prime     Quote-Unquote Apps                 SIL Open Font License 1.1
-  Special Elite     Astigmatic (Brian J. Bonislawsky)  Apache License 2.0
