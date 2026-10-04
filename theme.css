@@ -22,10 +22,16 @@
   font-style: normal;
   font-display: swap;
 }
+/* The bold faces are registered under their own family, not as weight 700 of the
+   text face, so that nothing resolves to them by accident. Emphasis is drawn
+   instead with a light stroke on the Regular, see the strong rule further down.
+   To use the real Bold face for emphasis, set the text family's fallback to it:
+   .markdown-rendered strong, .cm-strong { font-family: "Courier Prime Heavy"; font-weight: 700;
+   -webkit-text-stroke: 0; } */
 @font-face {
-  font-family: "Courier Prime";
+  font-family: "Courier Prime Heavy";
   src: url("fonts/CourierPrime-Bold.ttf") format("truetype");
-  font-weight: 700;
+  font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
@@ -37,9 +43,9 @@
   font-display: swap;
 }
 @font-face {
-  font-family: "Courier Prime";
+  font-family: "Courier Prime Heavy";
   src: url("fonts/CourierPrime-BoldItalic.ttf") format("truetype");
-  font-weight: 700;
+  font-weight: 400;
   font-style: italic;
   font-display: swap;
 }
@@ -128,6 +134,12 @@ settings:
     type: heading
     level: 2
     collapsed: false
+  -
+    id: manifold-choice-bold-stroke
+    title: Bold passage
+    description: How hard a bold passage is struck. 0.35px is a second hit on the key, 0.6px is a hard one, 0px removes the emphasis and leaves bold indistinguishable.
+    type: variable-text
+    default: 0.35px
   -
     id: manifold-choice-stamp-text
     title: Stamp text
@@ -943,10 +955,25 @@ body {
   margin-block-end: var(--p-spacing);
 }
 
+/* Courier Prime has only a light Regular and a very heavy Bold, and the jump
+   between them is nearly double the ink, so a bold word set in the real Bold
+   reads as a different typewriter rather than the same one struck twice. The
+   text family therefore registers one weight, and emphasis is a light stroke on
+   the letterforms already in use, the way a typewriter gets emphasis by hitting
+   the key twice. Tune it with --manifold-choice-bold-stroke, and see the bold
+   face note above for putting the real Bold back. */
 .markdown-rendered strong,
 .cm-strong {
-  font-weight: 700;
+  font-weight: 400;
   color: var(--bold-color);
+  -webkit-text-stroke: var(--manifold-choice-bold-stroke, 0.35px) currentColor;
+}
+
+/* Obsidian's own bold rule reads --bold-weight, so pin it to 400 inside the
+   document, in case that rule wins on order. The application chrome keeps 700. */
+.markdown-preview-view,
+.markdown-source-view {
+  --bold-weight: 400;
 }
 
 .markdown-rendered em,

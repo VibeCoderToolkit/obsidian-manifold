@@ -46,6 +46,8 @@ Typography
 
 - Courier Prime everywhere, including the interface, so the whole machine reads
   as one typewriter.
+- Emphasis is a second strike on the same face rather than a heavier font, so a
+  bold word stays the same typewriter. See Bold below.
 - Special Elite for headings and labels. H1 and H2 are separated by rules, not by
   size alone. H4 through H6 are small boxed labels, the sort printed on a form.
 
@@ -75,6 +77,20 @@ Structure
 - Period callout palette only: cobalt, teal, olive, amber, signal red, graphite.
 - A print stylesheet, so the document prints as paper rather than as a screen.
 - Excalidraw's interface is squared off and set in Courier Prime, see Excalidraw below.
+
+## Bold
+
+Courier Prime ships a light Regular and a very heavy Bold, and the jump between
+them is close to double the ink. A bold word set in the real Bold therefore reads
+as a different typewriter rather than the same one struck twice, which is the
+report this section answers. The theme keeps a single weight in the text family
+and draws emphasis with a light stroke on the letterforms already in use, which
+measures a third more ink rather than nearly double, and cannot change the face
+because it is the same face.
+
+Tune it with `--manifold-choice-bold-stroke` in the Manifold panel, or in a
+snippet. 0.5px is close to a hard strike, 0.7px is close to the real Bold, and
+the real face remains available as `Courier Prime Heavy` for anyone who wants it.
 
 ## Excalidraw
 
@@ -130,6 +146,7 @@ declared in the theme.
 | `--manifold-choice-accent` | `#27467f` | Accent, carbon blue in light, cyan in dark |
 | `--manifold-choice-perforation` | `#b0a483` | Tractor-feed hole ink |
 | `--manifold-choice-redaction` | `#000000` | Bar laid over selected text. Black on the cream sheet, the ink colour on the blueprint. |
+| `--manifold-choice-bold-stroke` | `0.35px` | How hard a bold passage is struck. 0.5px is a hard hit, 0.7px approaches the real Bold face, 0 removes the emphasis. |
 | `--manifold-choice-greenbar-alpha` | `0.3` | Green-bar strength, 0 disables |
 | `--manifold-choice-ink-bleed` | `0.25` | Ink weight on the paper, 0 for a new ribbon |
 | `--manifold-choice-stamp-display` | `none` | `block` prints the rubber stamp beside the title |
