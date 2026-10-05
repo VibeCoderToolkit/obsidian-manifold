@@ -1041,7 +1041,13 @@ span.cm-header-6,
 .HyperMD-list-line .cm-header-3,
 .HyperMD-list-line .cm-header-4,
 .HyperMD-list-line .cm-header-5,
-.HyperMD-list-line .cm-header-6 {
+.HyperMD-list-line .cm-header-6,
+.cm-line .cm-header-1,
+.cm-line .cm-header-2,
+.cm-line .cm-header-3,
+.cm-line .cm-header-4,
+.cm-line .cm-header-5,
+.cm-line .cm-header-6 {
   border: none;
   padding: 0;
 }

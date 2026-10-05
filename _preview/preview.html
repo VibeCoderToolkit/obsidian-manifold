@@ -360,13 +360,17 @@
     hp.innerHTML = '<div class="cm-editor"><div class="cm-scroller"><div class="cm-content">' +
                    '<div class="cm-line HyperMD-header-1 cm-header-1">' +
                    '<span class="cm-header-1">probe</span></div>' +
+                   '<div class="cm-line HyperMD-header-1">' +
+                   '<div class="cm-header-1">probe</div></div>' +
                    '</div></div></div>';
     document.body.appendChild(hp);
     var hline = hp.querySelector('.cm-line.HyperMD-header-1');
     var hrun = hp.querySelector('span.cm-header-1');
+    var hdiv = hp.querySelector('div.cm-header-1');
     add('h1LineBorder', getComputedStyle(hline).borderBottomWidth + ' ' + getComputedStyle(hline).borderBottomStyle);
     add('h1RunBorder', getComputedStyle(hrun).borderBottomWidth);
     add('h1RunPadding', getComputedStyle(hrun).paddingBottom);
+    add('h1DivRunBorder', hdiv ? getComputedStyle(hdiv).borderBottomWidth : 'n/a');
     hp.remove();
     tp.remove();
     var pre = document.createElement('pre');
