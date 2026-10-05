@@ -349,6 +349,25 @@
     } else {
       add('themeRuleCount', 'sheet-not-found');
     }
+    /* --- heading rule check --- */
+    /* A border on the heading run is painted once per line fragment, so a
+       heading that runs over one line came out with a rule under every line.
+       The rule belongs to the line element; the run must stay borderless and
+       unattended padding-free. See the geometry-freeze selectors in theme.css. */
+    var hp = document.createElement('div');
+    hp.className = 'markdown-source-view mod-cm6';
+    hp.style.cssText = 'position:absolute;left:-9999px;top:0';
+    hp.innerHTML = '<div class="cm-editor"><div class="cm-scroller"><div class="cm-content">' +
+                   '<div class="cm-line HyperMD-header-1 cm-header-1">' +
+                   '<span class="cm-header-1">probe</span></div>' +
+                   '</div></div></div>';
+    document.body.appendChild(hp);
+    var hline = hp.querySelector('.cm-line.HyperMD-header-1');
+    var hrun = hp.querySelector('span.cm-header-1');
+    add('h1LineBorder', getComputedStyle(hline).borderBottomWidth + ' ' + getComputedStyle(hline).borderBottomStyle);
+    add('h1RunBorder', getComputedStyle(hrun).borderBottomWidth);
+    add('h1RunPadding', getComputedStyle(hrun).paddingBottom);
+    hp.remove();
     tp.remove();
     var pre = document.createElement('pre');
     pre.id = 'manifold-diag';

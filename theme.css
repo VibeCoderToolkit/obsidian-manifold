@@ -1012,6 +1012,40 @@ body {
 
 /* --- Headings: stamped section labels ----------------------------------- */
 
+/* Geometry belongs to the block, never to the text run.
+   Live Preview marks the heading with .HyperMD-header-1 on the line and puts
+   the heading text in a run inside it, which carries .cm-header-1 as well (see
+   Obsidian's own app.css, where .HyperMD-header .cm-header-1 sets font-size to
+   inherit, and .HyperMD-list-line .cm-header-1 styles the same run in a list).
+   A border on an inline run is painted once per line fragment, so a heading
+   that ran over one line grew a rule under every line, plus a second rule under
+   the last one where the run's border sat just below the line's own. The run
+   keeps the type (face, case, tracking, colour); the rule and its padding stay
+   on .HyperMD-header-* and the rendered h1 to h6. The descendant selectors
+   (0,2,0) and the element-plus-class ones (0,1,1) both outrank the class-only
+   rules below (0,1,0), so the order of this file does not matter. */
+span.cm-header-1,
+span.cm-header-2,
+span.cm-header-3,
+span.cm-header-4,
+span.cm-header-5,
+span.cm-header-6,
+.HyperMD-header .cm-header-1,
+.HyperMD-header .cm-header-2,
+.HyperMD-header .cm-header-3,
+.HyperMD-header .cm-header-4,
+.HyperMD-header .cm-header-5,
+.HyperMD-header .cm-header-6,
+.HyperMD-list-line .cm-header-1,
+.HyperMD-list-line .cm-header-2,
+.HyperMD-list-line .cm-header-3,
+.HyperMD-list-line .cm-header-4,
+.HyperMD-list-line .cm-header-5,
+.HyperMD-list-line .cm-header-6 {
+  border: none;
+  padding: 0;
+}
+
 .markdown-rendered h1,
 .markdown-rendered h2,
 .markdown-rendered h3,
